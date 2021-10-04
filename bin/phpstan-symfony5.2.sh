@@ -7,9 +7,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$(dirname "$DIR")"
 
 set -x
-tests/Application/bin/console --env=test cache:warmup
+tests/Application/bin/console --env=test c:c
 vendor/bin/phpstan analyse \
-	--level 7 \
+	--level max \
 	--memory-limit 1G \
-	--configuration phpstan.neon \
+	--configuration phpstan-symfony5.2.neon \
 	src tests

@@ -1,6 +1,6 @@
 {% extends '@SyliusAdmin/layout.html.twig' %}
 
-{% block title %}{{ 'mango-sylius.ui.shippingExport.shipmentExport'|trans }} - {{ exporterLabel }} {{ parent() }}{% endblock %}
+{% block title %}{{ 'threebrs.ui.shippingExport.shipmentExport'|trans }} - {{ exporterLabel }} {{ parent() }}{% endblock %}
 
 {% block content %}
 
@@ -9,7 +9,7 @@
 			<h1 class="ui header">
 				<i class="circular arrow up icon"></i>
 				<div class="content">
-					{{ 'mango-sylius.ui.shippingExport.shipmentExport'|trans }} - {{ exporterLabel }}
+					{{ 'threebrs.ui.shippingExport.shipmentExport'|trans }} - {{ exporterLabel }}
 				</div>
 			</h1>
 		</div>
@@ -19,24 +19,24 @@
 
 				<div class="ui labeled icon top right floating dropdown button primary link" tabindex="0">
 					<i class="icon download"></i>
-					<span class="text">{{ 'mango-sylius.ui.shippingExport.downloadCsvButton'|trans }} (<span class="counter">all</span>)</span>
+					<span class="text">{{ 'threebrs.ui.shippingExport.downloadCsvButton'|trans }} (<span class="counter">all</span>)</span>
 					<div class="menu left transition hidden" tabindex="-1">
 						<a class="item"
 						   href="#"
 						   {% if shipments|length == 0 %}disabled="disabled"{% endif %}
-						   data-url="{{ path('mango_sylius_admin_export_shipments', {'exporterName': exporterName}) }}"
+						   data-url="{{ path('threebrs_admin_export_shipments', {'exporterName': exporterName}) }}"
 						   onclick="downloadCsv(this, 0)">
 							<i class="icon download"></i>
-							{{ 'mango-sylius.ui.shippingExport.onlyDownloadCSV'|trans }} (<span class="counter">{{ 'mango-sylius.ui.shippingExport.allShipment'|trans }}</span>)
+							{{ 'threebrs.ui.shippingExport.onlyDownloadCSV'|trans }} (<span class="counter">{{ 'threebrs.ui.shippingExport.allShipment'|trans }}</span>)
 						</a>
 						<a class="item"
 						   href="#"
 						   {% if shipments|length == 0 %}disabled="disabled"{% endif %}
-						   data-change-state-url="{{ path('mango_sylius_admin_change_state_shipments', {'exporterName': exporterName}) }}"
-						   data-url="{{ path('mango_sylius_admin_export_shipments', {'exporterName': exporterName}) }}"
+						   data-change-state-url="{{ path('threebrs_admin_change_state_shipments', {'exporterName': exporterName}) }}"
+						   data-url="{{ path('threebrs_admin_export_shipments', {'exporterName': exporterName}) }}"
 						   onclick="downloadCsv(this, 1)">
 							<i class="icon download"></i>
-							{{ 'mango-sylius.ui.shippingExport.downloadCSVAndSend'|trans }} (<span class="counter">{{ 'mango-sylius.ui.shippingExport.allShipment'|trans }}</span>)
+							{{ 'threebrs.ui.shippingExport.downloadCSVAndSend'|trans }} (<span class="counter">{{ 'threebrs.ui.shippingExport.allShipment'|trans }}</span>)
 						</a>
 					</div>
 				</div>
@@ -49,7 +49,7 @@
 
 	<div class="ui segment">
 		{% if shipments|length > 0 %}
-			{{ include('@MangoSyliusShipmentExportPlugin/_table.html.twig') }}
+			{{ include('@ThreeBRSSyliusShipmentExportPlugin/_table.html.twig') }}
 		{% else %}
 			{% import '@SyliusUi/Macro/messages.html.twig' as messages %}
 			{{ messages.info('sylius.ui.no_results_to_display') }}
@@ -78,7 +78,7 @@
 			if (chLength > 0) {
 				$('.counter').html(chLength);
 			} else {
-				$('.counter').html('{{ 'mango-sylius.ui.shippingExport.allShipment'|trans }}');
+				$('.counter').html('{{ 'threebrs.ui.shippingExport.allShipment'|trans }}');
 			}
 		}
 
@@ -106,7 +106,7 @@
 		}
 
 		function downloadCsv(el, isConfirm, singleRow = null) {
-			if (isConfirm && !confirm('{{ 'mango-sylius.ui.shippingExport.confirmSendQuestion'|trans }}')) {
+			if (isConfirm && !confirm('{{ 'threebrs.ui.shippingExport.confirmSendQuestion'|trans }}')) {
 				return false;
 			}
 

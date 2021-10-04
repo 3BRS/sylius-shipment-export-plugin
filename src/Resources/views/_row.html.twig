@@ -32,22 +32,22 @@
 		<div class="ui labeled icon top right floating dropdown button primary link"
 			 tabindex="0">
 			<i class="icon download"></i>
-			<span class="text">{{ 'mango-sylius.ui.shippingExport.downloadCsvButton'|trans }}</span>
+			<span class="text">{{ 'threebrs.ui.shippingExport.downloadCsvButton'|trans }}</span>
 			<div class="menu left transition hidden" tabindex="-1">
 				<a class="item"
 				   href="#"
 				   onclick="downloadCsv(this, 0, {{ row.id }})"
-				   data-url="{{ path('mango_sylius_admin_export_shipments', {'exporterName': exporterName}) }}">
+				   data-url="{{ path('threebrs_admin_export_shipments', {'exporterName': exporterName}) }}">
 					<i class="icon download"></i>
-					{{ 'mango-sylius.ui.shippingExport.onlyDownloadCSV'|trans }}
+					{{ 'threebrs.ui.shippingExport.onlyDownloadCSV'|trans }}
 				</a>
 				<a class="item"
 				   href="#"
 				   onclick="downloadCsv(this, 1, {{ row.id }})"
-				   data-change-state-url="{{ path('mango_sylius_admin_change_state_shipments', {'exporterName': exporterName}) }}"
-				   data-url="{{ path('mango_sylius_admin_export_shipments', {'exporterName': exporterName}) }}">
+				   data-change-state-url="{{ path('threebrs_admin_change_state_shipments', {'exporterName': exporterName}) }}"
+				   data-url="{{ path('threebrs_admin_export_shipments', {'exporterName': exporterName}) }}">
 					<i class="icon download"></i>
-					{{ 'mango-sylius.ui.shippingExport.downloadCSVAndSend'|trans }}
+					{{ 'threebrs.ui.shippingExport.downloadCSVAndSend'|trans }}
 				</a>
 			</div>
 		</div>

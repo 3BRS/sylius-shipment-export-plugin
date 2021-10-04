@@ -1,0 +1,26 @@
+includes:
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-symfony/extension.neon
+
+parameters:
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+
+    symfony:
+        container_xml_path: tests/Application/var/cache/test/testContainer.xml
+
+    excludes_analyse:
+        - 'src/DependencyInjection/Compiler/RegisterShipmentExporersPass.php'
+
+        # Too slow
+        - 'src/DependencyInjection/Configuration.php'
+
+        # Test dependencies
+        - '*/tests/Application/var/*'
+
+        - '*/tests/Behat/*'
+
+        - 'tests/'
+
+    ignoreErrors:
+        - '#Method Symfony\\Contracts\\EventDispatcher\\EventDispatcherInterface::dispatch\(\) invoked with 2 parameters, 1 required.#'

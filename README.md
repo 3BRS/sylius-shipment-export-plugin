@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://www.mangoweb.cz/en/" target="_blank">
+    <a href="https://www.3brs.com" target="_blank">
         <img src="https://3brs1.fra1.cdn.digitaloceanspaces.com/3brs/logo/3BRS-logo-sylius-200.png"/>
     </a>
 </p>
@@ -12,8 +12,8 @@ Shipment Export Plugin
     <a href="https://packagist.org/packages/3brs/sylius-shipment-export-plugin" title="Version" target="_blank">
         <img src="https://img.shields.io/packagist/v/3brs/sylius-shipment-export-plugin" />
     </a>
-    <a href="http://travis-ci.org/mangoweb-sylius/SyliusShipmentExportPlugin" title="Build status" target="_blank">
-        <img src="https://img.shields.io/travis/mangoweb-sylius/SyliusShipmentExportPlugin/master.svg" />
+    <a href="https://circleci.com/gh/3BRS/sylius-shipment-export-plugin" title="Build status" target="_blank">
+        <img src="https://circleci.com/gh/3BRS/sylius-shipment-export-plugin.svg?style=shield" />
     </a>
 </h1>
 
@@ -37,13 +37,13 @@ Shipment Export Plugin
 
 ## Installation
 
-1. Run `$ composer require mangoweb-sylius/sylius-shipment-export-plugin`.
-2. Register `\MangoSylius\ShipmentExportPlugin\MangoSyliusShipmentExportPlugin` in your Kernel.
-3. Import `@MangoSyliusShipmentExportPlugin/Resources/config/routing.yml` in the routing.yml.
+1. Run `$ composer require 3brs/sylius-shipment-export-plugin`.
+2. Register `\ThreeBRS\SyliusShipmentExportPlugin\ThreeBRSSyliusShipmentExportPlugin` in your Kernel.
+3. Import `@ThreeBRSSyliusShipmentExportPlugin/Resources/config/routing.yml` in the routing.yml.
 
 ```
-mango_sylius_shipment_export_plugin:
-    resource: "@MangoSyliusShipmentExportPlugin/Resources/config/routing.yml"
+threebrs_shipment_export_plugin:
+    resource: "@ThreeBRSSyliusShipmentExportPlugin/Resources/config/routing.yml"
     prefix: /admin
 ```
 
@@ -51,7 +51,7 @@ mango_sylius_shipment_export_plugin:
 
 You can use predefined CSV type for shipment providers Geis and Czech Post) or write your own exporter.
 
-Your custom exporter has to implement `MangoSylius\ShipmentExportPlugin\Model\ShipmentExporterInterface`
+Your custom exporter has to implement `ThreeBRS\SyliusShipmentExportPlugin\Model\ShipmentExporterInterface`
 and must be defined as service. Check out our sample implementations.
 
 
@@ -59,24 +59,24 @@ Predefined shipping providers:
 
 * Czech post
 ```
-MangoSylius\ShipmentExportPlugin\Model\CeskaPostaShipmentExporter:
+ThreeBRS\SyliusShipmentExportPlugin\Model\CeskaPostaShipmentExporter:
     public: true
     arguments:
         $currencyConverter: '@sylius.currency_converter'    
     tags:
-        - name: mango_sylius.shipment_exporter_type
+        - name: threebrs.shipment_exporter_type
           type: 'ceska_posta'
           label: 'Česká pošta'
 ```
 
 * Geis
 ```
-MangoSylius\ShipmentExportPlugin\Model\GeisShipmentExporter:
+ThreeBRS\SyliusShipmentExportPlugin\Model\GeisShipmentExporter:
     public: true
     arguments:
         $currencyConverter: '@sylius.currency_converter'
     tags:
-        - name: mango_sylius.shipment_exporter_type
+        - name: threebrs.shipment_exporter_type
           type: 'geis'
           label: 'Geis'
 ```

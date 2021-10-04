@@ -3,28 +3,28 @@
 	<tr>
 		<th></th>
 		<th class="sylius-table-column">
-			{{ 'mango-sylius.ui.shippingExport.orderNumber'|trans }}
+			{{ 'threebrs.ui.shippingExport.orderNumber'|trans }}
 		</th>
 		<th class="sylius-table-column">
-			{{ 'mango-sylius.ui.shippingExport.shippingAddress'|trans }}
+			{{ 'threebrs.ui.shippingExport.shippingAddress'|trans }}
 		</th>
 		<th class="sylius-table-column">
-			{{ 'mango-sylius.ui.shippingExport.email'|trans }}
+			{{ 'threebrs.ui.shippingExport.email'|trans }}
 		</th>
 		<th class="sylius-table-column">
-			{{ 'mango-sylius.ui.shippingExport.phoneNumber'|trans }}
+			{{ 'threebrs.ui.shippingExport.phoneNumber'|trans }}
 		</th>
 		<th class="sylius-table-column">
-			{{ 'mango-sylius.ui.shippingExport.orderDate'|trans }}
+			{{ 'threebrs.ui.shippingExport.orderDate'|trans }}
 		</th>
 		<th class="sylius-table-column-actions">
-			{{ 'mango-sylius.ui.shippingExport.actions'|trans }}
+			{{ 'threebrs.ui.shippingExport.actions'|trans }}
 		</th>
 	</tr>
 	</thead>
 	<tbody>
 	{% for row in shipments %}
-		{{ include('@MangoSyliusShipmentExportPlugin/_row.html.twig') }}
+		{{ include('@ThreeBRSSyliusShipmentExportPlugin/_row.html.twig') }}
 	{% endfor %}
 	</tbody>
 </table>

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MangoSylius\ShipmentExportPlugin\DependencyInjection;
+namespace ThreeBRS\SyliusShipmentExportPlugin\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -14,11 +14,11 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  *
  * @see http://symfony.com/doc/current/cookbook/bundles/extension.html
  */
-class MangoSyliusShipmentExportExtension extends Extension
+class ThreeBRSSyliusShipmentExportExtension extends Extension
 {
-	public function load(array $configs, ContainerBuilder $container): void
-	{
-		$loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-		$loader->load('services.yml');
-	}
+    public function load(array $configs, ContainerBuilder $container): void
+    {
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('services.yml');
+    }
 }

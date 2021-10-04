@@ -1,4 +1,4 @@
-mango-sylius:
+threebrs:
     ui:
         shippingExport:
             shipmentExport: Shipment export
