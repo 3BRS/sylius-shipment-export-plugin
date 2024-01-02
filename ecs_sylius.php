@@ -124,10 +124,10 @@ use PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer;
 use SlevomatCodingStandard\Sniffs\Commenting\ForbiddenAnnotationsSniff;
 use SlevomatCodingStandard\Sniffs\Commenting\InlineDocCommentDeclarationSniff;
 use SlevomatCodingStandard\Sniffs\Commenting\RequireOneLinePropertyDocCommentSniff;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
+return static function (ECSConfig $ecsConfig): void {
+    $services = $ecsConfig->services();
 
     $services->set(EregToPregFixer::class);
 
@@ -389,7 +389,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(RequireOneLinePropertyDocCommentSniff::class);
 
-    $parameters = $containerConfigurator->parameters();
+    $parameters = $ecsConfig->parameters();
 
     $parameters->set('skip', [VisibilityRequiredFixer::class => ['*Spec.php']]);
 };

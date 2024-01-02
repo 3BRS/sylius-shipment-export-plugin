@@ -1,0 +1,4 @@
+suites:
+    main:
+        namespace: ThreeBRS\SyliusShipmentExportPlugin
+        psr4_prefix: ThreeBRS\SyliusShipmentExportPlugin

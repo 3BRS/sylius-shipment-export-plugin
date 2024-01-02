@@ -1,0 +1,17 @@
+threebrs:
+    ui:
+        shippingExport:
+            shipmentExport: Export dopravy
+            exportShipping: Exportovat dopravu
+            exportAndShipSuccess: '{{ count }} doprav bylo označeno jako Odesláno!'
+            confirmSendQuestion: Určitě?
+            downloadCsvButton: Stáhnout CSV
+            onlyDownloadCSV: Pouze stáhnout CSV
+            downloadCSVAndSend: Stáhnout CSV a odeslat
+            allShipment: Vše
+            orderNumber: Číslo objednávky
+            shippingAddress: Doručovací adresa
+            email: Email
+            phoneNumber: Telefonní číslo
+            orderDate: Datum objednávky
+            actions: Akce
