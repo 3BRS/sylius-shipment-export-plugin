@@ -12,13 +12,8 @@ use Sylius\Component\Payment\Model\PaymentInterface;
 
 class GeisShipmentExporter implements ShipmentExporterInterface
 {
-    /** @var CurrencyConverter */
-    private $currencyConverter;
-
-    public function __construct(
-        CurrencyConverter $currencyConverter
-    ) {
-        $this->currencyConverter = $currencyConverter;
+    public function __construct(private CurrencyConverter $currencyConverter)
+    {
     }
 
     private function convert(int $amount, string $sourceCurrencyCode, string $targetCurrencyCode): int
@@ -70,7 +65,7 @@ class GeisShipmentExporter implements ShipmentExporterInterface
                 $totalAmount / 100,
                 0,
                 '.',
-                ''
+                '',
             );
         }
 
