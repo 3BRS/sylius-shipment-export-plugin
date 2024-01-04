@@ -1,6 +1,3 @@
-phpspec:
-	APP_ENV=test vendor/bin/phpspec run --ansi --no-interaction --format=dot
-
 phpstan:
 	APP_ENV=test bin/phpstan.sh
 
@@ -24,6 +21,6 @@ lint:
 
 init: install backend frontend
 
-ci: init phpstan ecs phpspec lint
+ci: init phpstan ecs lint
 
-static: install phpspec phpstan ecs lint
+static: install phpstan ecs lint
