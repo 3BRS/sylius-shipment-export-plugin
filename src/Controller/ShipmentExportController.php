@@ -50,7 +50,7 @@ class ShipmentExportController
     /** @var ShipmentExporterInterface */
     private $shipmentExporter;
 
-    /** @var ShipmentRepositoryInterface */
+    /** @var ShipmentRepositoryInterface&EntityRepository<ShipmentInterface> */
     private $shipmentRepository;
 
     /** @var TranslatorInterface */
@@ -66,7 +66,7 @@ class ShipmentExportController
         ShipmentExporterInterface $shipmentExporter,
         ParameterBagInterface $parameterBag,
         ShipmentRepositoryInterface $shipmentRepository,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
     ) {
         $this->templatingEngine = $templatingEngine;
         $this->entityManager = $entityManager;
@@ -76,6 +76,7 @@ class ShipmentExportController
         $this->router = $router;
         $this->shipmentExporter = $shipmentExporter;
         $this->parameterBag = $parameterBag;
+        assert($shipmentRepository instanceof EntityRepository);
         $this->shipmentRepository = $shipmentRepository;
         $this->translator = $translator;
     }
@@ -93,23 +94,26 @@ class ShipmentExportController
                     'exporterName' => $exporterName,
                     'exporter' => $this->shipmentExporter,
                     'exporterLabel' => $this->getExporterLabel($exporterName),
-                ]
-            )
+                ],
+            ),
         );
     }
 
     public function exportShipmentsAction(Request $request, string $exporterName): StreamedResponse
     {
-        $ids = $request->get('ids', []);
+        /** @var array<string|int> $ids */
+        $ids = (array) $request->get('ids', []);
         $shipments = $this->getShipmentsByIds($ids);
-        $questionsArray = $request->get('questions', []);
+        /** @var array<string, mixed> $questionsArray */
+        $questionsArray = (array) $request->get('questions', []);
 
         return $this->doCsvFile($shipments, $exporterName, $questionsArray);
     }
 
     public function markAsSend(Request $request, string $exporterName): RedirectResponse
     {
-        $ids = $request->get('ids', []);
+        /** @var array<string|int> $ids */
+        $ids = (array) $request->get('ids', []);
         $shipments = $this->getShipmentsByIds($ids);
 
         foreach ($shipments as $shipment) {
@@ -140,12 +144,14 @@ class ShipmentExportController
         return array_key_exists($exporterCode, $exporters) ? $exporters[$exporterCode] : '';
     }
 
+    /**
+     * @param array<int|string> $ids
+     *
+     * @return array<ShipmentInterface>
+     */
     public function getShipmentsByIds(array $ids): array
     {
-        /** @var EntityRepository $shipmentRepository */
-        $shipmentRepository = $this->shipmentRepository;
-
-        return $shipmentRepository->createQueryBuilder('s')
+        return $this->shipmentRepository->createQueryBuilder('s')
             ->select('s')
             ->join('s.order', 'o')
             ->andWhere('s.id in (:ids)')
@@ -155,12 +161,14 @@ class ShipmentExportController
             ->getResult();
     }
 
+    /**
+     * @param array<string> $shippingMethodCodes
+     *
+     * @return array<ShipmentInterface>
+     */
     public function getReadyShipments(array $shippingMethodCodes): array
     {
-        /** @var EntityRepository $shipmentRepository */
-        $shipmentRepository = $this->shipmentRepository;
-
-        return $shipmentRepository->createQueryBuilder('s')
+        return $this->shipmentRepository->createQueryBuilder('s')
             ->select('s')
             ->join('s.method', 'm')
             ->join('s.order', 'o')
@@ -195,6 +203,10 @@ class ShipmentExportController
         $stateMachine->apply(ShipmentTransitions::TRANSITION_SHIP);
     }
 
+    /**
+     * @param array<ShipmentInterface> $shipments
+     * @param array<string, mixed> $questionsArray
+     */
     public function doCsvFile(array $shipments, string $shippingMethodCode, array $questionsArray): StreamedResponse
     {
         $response = new StreamedResponse();
@@ -209,7 +221,7 @@ class ShipmentExportController
                     fputcsv(
                         $handle,
                         $header,
-                        $this->shipmentExporter->getDelimiter()
+                        $this->shipmentExporter->getDelimiter(),
                     );
                 }
             }
@@ -219,7 +231,7 @@ class ShipmentExportController
                 fputcsv(
                     $handle,
                     $this->shipmentExporter->getRow($shipment, $questionsArray),
-                    $this->shipmentExporter->getDelimiter()
+                    $this->shipmentExporter->getDelimiter(),
                 );
             }
 

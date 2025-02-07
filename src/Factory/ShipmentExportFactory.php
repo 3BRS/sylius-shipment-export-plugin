@@ -19,18 +19,16 @@ class ShipmentExportFactory
 
     public function __construct(
         RequestStack $requestStack,
-        ServiceRegistryInterface $serviceRegistry
+        ServiceRegistryInterface $serviceRegistry,
     ) {
         $this->requestStack = $requestStack;
         $this->serviceRegistry = $serviceRegistry;
     }
 
     /**
-     * @return ShipmentExporterInterface|null
-     *
      * @throws NotFoundException
      */
-    public function getExporter()
+    public function getExporter(): ?ShipmentExporterInterface
     {
         $request = $this->requestStack->getCurrentRequest();
         if ($request === null) {
@@ -38,11 +36,16 @@ class ShipmentExportFactory
         }
 
         $exporterName = $request->get('exporterName');
+        if ($exporterName === null) {
+            return null;
+        }
+
+        assert(is_string($exporterName));
 
         if ($this->serviceRegistry->has($exporterName) === false) {
             throw new  NotFoundException(sprintf(
                 'Exporter with %s exporterName could not be found',
-                $exporterName
+                $exporterName,
             ));
         }
 

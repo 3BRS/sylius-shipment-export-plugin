@@ -13,7 +13,7 @@ final class ShipmentExportMenuBuilder
     private $parameterBag;
 
     public function __construct(
-        ParameterBagInterface $parameterBag
+        ParameterBagInterface $parameterBag,
     ) {
         $this->parameterBag = $parameterBag;
     }

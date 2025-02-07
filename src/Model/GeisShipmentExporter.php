@@ -16,7 +16,7 @@ class GeisShipmentExporter implements ShipmentExporterInterface
     private $currencyConverter;
 
     public function __construct(
-        CurrencyConverter $currencyConverter
+        CurrencyConverter $currencyConverter,
     ) {
         $this->currencyConverter = $currencyConverter;
     }
@@ -26,11 +26,19 @@ class GeisShipmentExporter implements ShipmentExporterInterface
         return $this->currencyConverter->convert($amount, $sourceCurrencyCode, $targetCurrencyCode);
     }
 
+    /**
+     * @return array<string>
+     */
     public function getShippingMethodsCodes(): array
     {
         return ['geis-cz', 'geis-sk', 'geis-eu', 'geis-other'];
     }
 
+    /**
+     * @param array{days_offset: string|int}|array<string, mixed> $questionsArray
+     *
+     * @return array<int|string, bool|float|int|string|null>
+     */
     public function getRow(ShipmentInterface $shipment, array $questionsArray): array
     {
         $order = $shipment->getOrder();
@@ -40,7 +48,9 @@ class GeisShipmentExporter implements ShipmentExporterInterface
         $customer = $order->getCustomer();
         assert($customer !== null);
 
-        $days_offset = (int) $questionsArray['days_offset'];
+        $days_offset = $questionsArray['days_offset'] ?? 0;
+        assert(is_int($days_offset) || is_string($days_offset));
+        $days_offset = (int) $days_offset;
 
         $payment = $order->getPayments()->first();
         assert($payment instanceof PaymentInterface);
@@ -70,7 +80,7 @@ class GeisShipmentExporter implements ShipmentExporterInterface
                 $totalAmount / 100,
                 0,
                 '.',
-                ''
+                '',
             );
         }
 
@@ -291,6 +301,9 @@ class GeisShipmentExporter implements ShipmentExporterInterface
         return ';';
     }
 
+    /**
+     * @return array<Question>|null
+     */
     public function getQuestionsArray(): ?array
     {
         $question[] = new Question('days_offset', 'Zadejte počet dnů do svozu (0-9).', '0', '/^[0-9]?$/');
@@ -298,6 +311,9 @@ class GeisShipmentExporter implements ShipmentExporterInterface
         return $question;
     }
 
+    /**
+     * @return array<array<int|string, bool|float|int|string|null>>|null
+     */
     public function getHeaders(): ?array
     {
         return null;
