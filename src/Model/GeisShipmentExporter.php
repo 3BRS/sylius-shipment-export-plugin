@@ -301,9 +301,9 @@ class GeisShipmentExporter implements ShipmentExporterInterface
      */
     public function getQuestionsArray(): ?array
     {
-        $question[] = new Question('days_offset', 'Zadejte počet dnů do svozu (0-9).', '0', '/^[0-9]?$/');
-
-        return $question;
+        return [
+            new Question('days_offset', 'Zadejte počet dnů do svozu (0-9).', '0', '/^[0-9]?$/'),
+        ];
     }
 
     /**

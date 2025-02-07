@@ -13,6 +13,7 @@ install:
 	rm -fr tests/Application/var && mkdir -p tests/Application/var && chmod -R 777 tests/Application/var
 
 backend:
+	APP_ENV=test tests/Application/bin/console doctrine:database:drop --force || true
 	APP_ENV=test tests/Application/bin/console sylius:install --no-interaction
 	APP_ENV=test tests/Application/bin/console doctrine:schema:update --force --complete --no-interaction
 	APP_ENV=test tests/Application/bin/console sylius:fixtures:load default --no-interaction
@@ -30,9 +31,11 @@ behat:
 
 init: install backend frontend
 
-ci: init phpstan ecs lint behat
+tests: phpstan ecs lint behat
 
-static: install phpstan ecs lint
+static: phpstan ecs lint
+
+ci: init static behat
 
 run:
 	docker compose up --detach

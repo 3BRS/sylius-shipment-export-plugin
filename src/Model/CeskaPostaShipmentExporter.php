@@ -22,7 +22,7 @@ class CeskaPostaShipmentExporter implements ShipmentExporterInterface
     }
 
     /**
-     * @return array<string>d
+     * @return array<string>
      */
     public function getShippingMethodsCodes(): array
     {
