@@ -26,59 +26,23 @@ use Twig\Environment;
 
 class ShipmentExportController
 {
-    /** @var ParameterBagInterface */
-    private $parameterBag;
-
-    /** @var Environment */
-    private $templatingEngine;
-
-    /** @var EntityManager */
-    private $entityManager;
-
-    /** @var FlashBagInterface */
-    private $flashBag;
-
-    /** @var FactoryInterface */
-    private $stateMachineFatory;
-
-    /** @var EventDispatcherInterface */
-    private $eventDispatcher;
-
-    /** @var RouterInterface */
-    private $router;
-
-    /** @var ShipmentExporterInterface */
-    private $shipmentExporter;
-
     /** @var ShipmentRepositoryInterface&EntityRepository<ShipmentInterface> */
     private $shipmentRepository;
 
-    /** @var TranslatorInterface */
-    private $translator;
-
     public function __construct(
-        Environment $templatingEngine,
-        EntityManager $entityManager,
-        FlashBagInterface $flashBag,
-        FactoryInterface $stateMachineFatory,
-        EventDispatcherInterface $eventDispatcher,
-        RouterInterface $router,
-        ShipmentExporterInterface $shipmentExporter,
-        ParameterBagInterface $parameterBag,
+        private Environment $templatingEngine,
+        private EntityManager $entityManager,
+        private FlashBagInterface $flashBag,
+        private FactoryInterface $stateMachineFatory,
+        private EventDispatcherInterface $eventDispatcher,
+        private RouterInterface $router,
+        private ShipmentExporterInterface $shipmentExporter,
+        private ParameterBagInterface $parameterBag,
         ShipmentRepositoryInterface $shipmentRepository,
-        TranslatorInterface $translator,
+        private TranslatorInterface $translator,
     ) {
-        $this->templatingEngine = $templatingEngine;
-        $this->entityManager = $entityManager;
-        $this->flashBag = $flashBag;
-        $this->stateMachineFatory = $stateMachineFatory;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->router = $router;
-        $this->shipmentExporter = $shipmentExporter;
-        $this->parameterBag = $parameterBag;
         assert($shipmentRepository instanceof EntityRepository);
         $this->shipmentRepository = $shipmentRepository;
-        $this->translator = $translator;
     }
 
     public function showAllUnshipShipments(string $exporterName): Response

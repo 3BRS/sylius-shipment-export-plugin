@@ -12,13 +12,8 @@ use Sylius\Component\Currency\Converter\CurrencyConverter;
 
 class CeskaPostaShipmentExporter implements ShipmentExporterInterface
 {
-    /** @var CurrencyConverter */
-    private $currencyConverter;
-
-    public function __construct(
-        CurrencyConverter $currencyConverter,
-    ) {
-        $this->currencyConverter = $currencyConverter;
+    public function __construct(private CurrencyConverter $currencyConverter)
+    {
     }
 
     private function convert(int $amount, string $sourceCurrencyCode, string $targetCurrencyCode): int
