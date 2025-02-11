@@ -26,58 +26,23 @@ use Twig\Environment;
 
 class ShipmentExportController
 {
-    /** @var ParameterBagInterface */
-    private $parameterBag;
-
-    /** @var Environment */
-    private $templatingEngine;
-
-    /** @var EntityManager */
-    private $entityManager;
-
-    /** @var FlashBagInterface */
-    private $flashBag;
-
-    /** @var FactoryInterface */
-    private $stateMachineFatory;
-
-    /** @var EventDispatcherInterface */
-    private $eventDispatcher;
-
-    /** @var RouterInterface */
-    private $router;
-
-    /** @var ShipmentExporterInterface */
-    private $shipmentExporter;
-
-    /** @var ShipmentRepositoryInterface */
+    /** @var ShipmentRepositoryInterface&EntityRepository<ShipmentInterface> */
     private $shipmentRepository;
 
-    /** @var TranslatorInterface */
-    private $translator;
-
     public function __construct(
-        Environment $templatingEngine,
-        EntityManager $entityManager,
-        FlashBagInterface $flashBag,
-        FactoryInterface $stateMachineFatory,
-        EventDispatcherInterface $eventDispatcher,
-        RouterInterface $router,
-        ShipmentExporterInterface $shipmentExporter,
-        ParameterBagInterface $parameterBag,
+        private Environment $templatingEngine,
+        private EntityManager $entityManager,
+        private FlashBagInterface $flashBag,
+        private FactoryInterface $stateMachineFatory,
+        private EventDispatcherInterface $eventDispatcher,
+        private RouterInterface $router,
+        private ShipmentExporterInterface $shipmentExporter,
+        private ParameterBagInterface $parameterBag,
         ShipmentRepositoryInterface $shipmentRepository,
-        TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
-        $this->templatingEngine = $templatingEngine;
-        $this->entityManager = $entityManager;
-        $this->flashBag = $flashBag;
-        $this->stateMachineFatory = $stateMachineFatory;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->router = $router;
-        $this->shipmentExporter = $shipmentExporter;
-        $this->parameterBag = $parameterBag;
+        assert($shipmentRepository instanceof EntityRepository);
         $this->shipmentRepository = $shipmentRepository;
-        $this->translator = $translator;
     }
 
     public function showAllUnshipShipments(string $exporterName): Response
@@ -93,23 +58,26 @@ class ShipmentExportController
                     'exporterName' => $exporterName,
                     'exporter' => $this->shipmentExporter,
                     'exporterLabel' => $this->getExporterLabel($exporterName),
-                ]
-            )
+                ],
+            ),
         );
     }
 
     public function exportShipmentsAction(Request $request, string $exporterName): StreamedResponse
     {
-        $ids = $request->get('ids', []);
+        /** @var array<string|int> $ids */
+        $ids = (array) $request->get('ids', []);
         $shipments = $this->getShipmentsByIds($ids);
-        $questionsArray = $request->get('questions', []);
+        /** @var array<string, mixed> $questionsArray */
+        $questionsArray = (array) $request->get('questions', []);
 
         return $this->doCsvFile($shipments, $exporterName, $questionsArray);
     }
 
     public function markAsSend(Request $request, string $exporterName): RedirectResponse
     {
-        $ids = $request->get('ids', []);
+        /** @var array<string|int> $ids */
+        $ids = (array) $request->get('ids', []);
         $shipments = $this->getShipmentsByIds($ids);
 
         foreach ($shipments as $shipment) {
@@ -140,12 +108,14 @@ class ShipmentExportController
         return array_key_exists($exporterCode, $exporters) ? $exporters[$exporterCode] : '';
     }
 
+    /**
+     * @param array<int|string> $ids
+     *
+     * @return array<ShipmentInterface>
+     */
     public function getShipmentsByIds(array $ids): array
     {
-        /** @var EntityRepository $shipmentRepository */
-        $shipmentRepository = $this->shipmentRepository;
-
-        return $shipmentRepository->createQueryBuilder('s')
+        return $this->shipmentRepository->createQueryBuilder('s')
             ->select('s')
             ->join('s.order', 'o')
             ->andWhere('s.id in (:ids)')
@@ -155,12 +125,14 @@ class ShipmentExportController
             ->getResult();
     }
 
+    /**
+     * @param array<string> $shippingMethodCodes
+     *
+     * @return array<ShipmentInterface>
+     */
     public function getReadyShipments(array $shippingMethodCodes): array
     {
-        /** @var EntityRepository $shipmentRepository */
-        $shipmentRepository = $this->shipmentRepository;
-
-        return $shipmentRepository->createQueryBuilder('s')
+        return $this->shipmentRepository->createQueryBuilder('s')
             ->select('s')
             ->join('s.method', 'm')
             ->join('s.order', 'o')
@@ -195,6 +167,10 @@ class ShipmentExportController
         $stateMachine->apply(ShipmentTransitions::TRANSITION_SHIP);
     }
 
+    /**
+     * @param array<ShipmentInterface> $shipments
+     * @param array<string, mixed> $questionsArray
+     */
     public function doCsvFile(array $shipments, string $shippingMethodCode, array $questionsArray): StreamedResponse
     {
         $response = new StreamedResponse();
@@ -209,7 +185,7 @@ class ShipmentExportController
                     fputcsv(
                         $handle,
                         $header,
-                        $this->shipmentExporter->getDelimiter()
+                        $this->shipmentExporter->getDelimiter(),
                     );
                 }
             }
@@ -219,7 +195,7 @@ class ShipmentExportController
                 fputcsv(
                     $handle,
                     $this->shipmentExporter->getRow($shipment, $questionsArray),
-                    $this->shipmentExporter->getDelimiter()
+                    $this->shipmentExporter->getDelimiter(),
                 );
             }
 
