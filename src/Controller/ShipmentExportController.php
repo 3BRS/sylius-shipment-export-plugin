@@ -17,22 +17,26 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use ThreeBRS\SyliusShipmentExportPlugin\Controller\Partials\GetFlashBagTrait;
 use ThreeBRS\SyliusShipmentExportPlugin\Model\ShipmentExporterInterface;
 use Twig\Environment;
 
 class ShipmentExportController
 {
-    /** @var ShipmentRepositoryInterface&EntityRepository<ShipmentInterface> */
+    use GetFlashBagTrait;
+
+    /** @var ShipmentRepositoryInterface&EntityRepository */
     private $shipmentRepository;
 
+    /**
+     * @param ShipmentRepositoryInterface&EntityRepository $shipmentRepository
+     */
     public function __construct(
         private Environment $templatingEngine,
         private EntityManager $entityManager,
-        private FlashBagInterface $flashBag,
         private FactoryInterface $stateMachineFatory,
         private EventDispatcherInterface $eventDispatcher,
         private RouterInterface $router,
@@ -94,7 +98,7 @@ class ShipmentExportController
         }
 
         $message = $this->translator->trans('threebrs.ui.shippingExport.exportAndShipSuccess', ['{{ count }}' => count($shipments)]);
-        $this->flashBag->add('success', $message);
+        $this->getFlashBag($request)->add('success', $message);
 
         $url = $this->router->generate('threebrs_admin_Shipment_export', ['exporterName' => $exporterName]);
 
