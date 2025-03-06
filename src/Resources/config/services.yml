@@ -11,6 +11,7 @@ services:
               method: buildMenu
         arguments:
             $parameterBag: '@parameter_bag'
+            $translator: '@translator'
 
     ThreeBRS\SyliusShipmentExportPlugin\Controller\ShipmentExportController:
         public: true

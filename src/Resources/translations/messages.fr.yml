@@ -1,0 +1,19 @@
+threebrs:
+    ui:
+        shippingExport:
+            shipmentExport: Export des envois
+            exportShipping: Export de la livraison
+            exportAndShipSuccess: '{{ count }} envoi a été marqué comme expédié !'
+            confirmSendQuestion: Êtes-vous sûr de vouloir envoyer ?
+            downloadCsvButton: Télécharger le CSV
+            onlyDownloadCSV: Télécharger uniquement le CSV
+            downloadCSVAndSend: Télécharger le CSV et envoyer
+            allShipment: Tout
+            orderNumber: Numéro de commande
+            shippingAddress: Adresse de livraison
+            email: E-mail
+            phoneNumber: Numéro de téléphone
+            orderDate: Date de commande
+            actions: Actions
+            menu:
+                exportShipment: Export des envois
