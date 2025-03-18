@@ -37,9 +37,9 @@ Shipment Export Plugin
 
 ## Installation
 
-1. Run `$ composer require 3brs/sylius-shipment-export-plugin`.
-2. Register `\ThreeBRS\SyliusShipmentExportPlugin\ThreeBRSSyliusShipmentExportPlugin` in your Kernel.
-3. Import `@ThreeBRSSyliusShipmentExportPlugin/Resources/config/routing.yml` in the routing.yml.
+1. Run `composer require 3brs/sylius-shipment-export-plugin`.
+2. Register `ThreeBRS\SyliusShipmentExportPlugin\ThreeBRSSyliusShipmentExportPlugin::class => ['all' => true]` in your `config/bundles.php`.
+3. Import `@ThreeBRSSyliusShipmentExportPlugin/Resources/config/routing.yml` in your `config/routes.yaml`
 
 ```
 threebrs_shipment_export_plugin:

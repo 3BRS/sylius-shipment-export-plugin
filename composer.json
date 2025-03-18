@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
-        "sylius/sylius": "1.12.*|1.13.*"
+        "sylius/sylius": "1.12.*|1.13.*|1.14.*"
     },
     "require-dev": {
         "behat/behat": "^3.9.0",
@@ -40,12 +40,14 @@
         "symfony/http-kernel": "^6.0",
         "symfony/intl": "^6.0",
         "symfony/web-profiler-bundle": "^6.0",
-        "doctrine/annotations": "^2.0"
+        "doctrine/annotations": "^2.0",
+        "symplify/easy-coding-standard": "^12.0"
     },
     "conflict": {
         "api-platform/core": "<2.7.13",
         "babdev/pagerfanta-bundle": "<3.6.1",
         "doctrine/collections": "<1.7.0",
+        "doctrine/data-fixtures": "<1.5.1",
         "doctrine/dbal": "<2.13.3",
         "doctrine/doctrine-bundle": "<2.8.0",
         "friendsofsymfony/rest-bundle": "<3.1.0",
@@ -59,7 +61,7 @@
         "symfony/framework-bundle": ">=5.4.0 <=5.4.20|>=6.0.0 <=6.0.16|>=6.1.0 <=6.1.8|>=6.2.0 <=6.2.2|6.2.8",
         "symfony/mime": "<5.4.0",
         "symfony/web-link": "<5.3.0",
-        "symplify/easy-coding-standard": "<10.2.0",
+        "symplify/easy-coding-standard": "<10.2.0|12.5.10",
         "twig/twig": "<2.14.7",
         "webmozart/assert": "<1.11.0",
         "willdurand/negotiation": "<3.0"
@@ -72,15 +74,15 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\ThreeBRS\\SyliusShipmentExportPlugin\\": "tests/Application/src/",
-            "Tests\\ThreeBRS\\SyliusShipmentExportPlugin\\Behat\\": "tests/Behat/"
+            "Tests\\ThreeBRS\\SyliusShipmentExportPlugin\\": "tests/Application/src/"
         }
     },
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "phpstan/extension-installer": true,
-            "symfony/flex": true
+            "symfony/flex": true,
+            "php-http/discovery": false
         }
     },
     "scripts": {
