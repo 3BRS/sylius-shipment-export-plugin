@@ -54,7 +54,6 @@ You can use predefined CSV type for shipment providers Geis and Czech Post) or w
 Your custom exporter has to implement `ThreeBRS\SyliusShipmentExportPlugin\Model\ShipmentExporterInterface`
 and must be defined as service. Check out our sample implementations.
 
-
 Predefined shipping providers:
 
 * Czech post
@@ -80,6 +79,12 @@ ThreeBRS\SyliusShipmentExportPlugin\Model\GeisShipmentExporter:
           type: 'geis'
           label: 'Geis'
 ```
+
+### Shipping methods
+
+Your shipping methods must have a code that matches the code of the shipping method in the exporter
+ - for Geis see `\ThreeBRS\SyliusShipmentExportPlugin\Model\GeisShipmentExporter::getShippingMethodsCodes`
+ - for Czech Post see `\ThreeBRS\SyliusShipmentExportPlugin\Model\CeskaPostaShipmentExporter::getShippingMethodsCodes`
 
 ## Development
 

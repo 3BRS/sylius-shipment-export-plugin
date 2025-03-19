@@ -22,6 +22,7 @@
 					<span class="text">{{ 'threebrs.ui.shippingExport.downloadCsvButton'|trans }} (<span class="counter">all</span>)</span>
 					<div class="menu left transition hidden" tabindex="-1">
 						<a class="item"
+						   id="shipment_exports_only_download"
 						   href="#"
 						   {% if shipments|length == 0 %}disabled="disabled"{% endif %}
 						   data-url="{{ path('threebrs_admin_export_shipments', {'exporterName': exporterName}) }}"
@@ -97,7 +98,7 @@
 
 			return ids;
 		}
-		
+
 		function testAnswer(regex, result) {
 			if (!regex) {
 				return true;
