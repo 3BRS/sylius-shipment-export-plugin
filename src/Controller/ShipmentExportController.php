@@ -100,7 +100,7 @@ class ShipmentExportController
         $message = $this->translator->trans('threebrs.ui.shippingExport.exportAndShipSuccess', ['{{ count }}' => count($shipments)]);
         $this->getFlashBag($request)->add('success', $message);
 
-        $url = $this->router->generate('threebrs_admin_Shipment_export', ['exporterName' => $exporterName]);
+        $url = $this->router->generate('threebrs_admin_shipment_export', ['exporterName' => $exporterName]);
 
         return new RedirectResponse($url);
     }

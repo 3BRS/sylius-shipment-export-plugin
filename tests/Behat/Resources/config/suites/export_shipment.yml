@@ -1,0 +1,26 @@
+default:
+    suites:
+        export_shipment:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - sylius.behat.context.transform.address
+                - sylius.behat.context.transform.payment
+                - sylius.behat.context.transform.product
+                - sylius.behat.context.transform.shared_storage
+                - sylius.behat.context.transform.shipping_method
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.currency
+                - sylius.behat.context.setup.locale
+                - sylius.behat.context.setup.order
+                - sylius.behat.context.setup.payment
+                - sylius.behat.context.setup.product
+                - sylius.behat.context.setup.shipping
+
+                - sylius.behat.context.setup.admin_security
+
+                - theebrs_sylius.shipment_export.behat.context.ui.admin.managing_shipments_export
+
+            filters:
+                tags: "@exporting_shipments && @ui"

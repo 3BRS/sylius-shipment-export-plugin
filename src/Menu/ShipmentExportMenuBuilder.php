@@ -28,7 +28,7 @@ final class ShipmentExportMenuBuilder
             assert($sales !== null);
 
             $sales->addChild('Shipment_exports_' . $exporterCode, [
-                'route' => 'threebrs_admin_Shipment_export',
+                'route' => 'threebrs_admin_shipment_export',
                 'routeParameters' => ['exporterName' => $exporterCode],
             ])->setName(sprintf(
                 '%s: %s',
