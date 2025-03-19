@@ -74,7 +74,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\ThreeBRS\\SyliusShipmentExportPlugin\\": "tests/Application/src/"
+            "Tests\\ThreeBRS\\SyliusShipmentExportPlugin\\": "tests/Application/src",
+            "Tests\\ThreeBRS\\SyliusShipmentExportPlugin\\Behat\\": "tests/Behat"
         }
     },
     "config": {

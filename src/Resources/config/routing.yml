@@ -1,4 +1,4 @@
-threebrs_admin_Shipment_export:
+threebrs_admin_shipment_export:
     path: /shipment-exports/{exporterName}
     defaults:
         _controller: ThreeBRS\SyliusShipmentExportPlugin\Controller\ShipmentExportController::showAllUnshipShipments
