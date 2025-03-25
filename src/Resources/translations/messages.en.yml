@@ -15,3 +15,5 @@ threebrs:
             phoneNumber: Phone number
             orderDate: Order date
             actions: Actions
+            menu:
+                exportShipment: Export Shipment
