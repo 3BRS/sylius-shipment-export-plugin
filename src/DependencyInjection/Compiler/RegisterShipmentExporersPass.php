@@ -12,6 +12,7 @@ final class RegisterShipmentExporersPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
+        // @phpstan-ignore-next-line
         if ($container->has('threebrs.shipment_exporter') === false) {
             return;
         }

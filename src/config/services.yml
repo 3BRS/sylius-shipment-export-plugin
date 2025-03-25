@@ -19,7 +19,7 @@ services:
             $parameterBag: '@parameter_bag'
             $templatingEngine: '@twig'
             $entityManager: '@doctrine.orm.default_entity_manager'
-            $stateMachineFatory: '@sm.factory'
+            $stateMachine: '@sylius_abstraction.state_machine'
             $eventDispatcher: '@event_dispatcher'
             $router: '@router'
             $shipmentExporter: '@ThreeBRS\SyliusShipmentExportPlugin\Model\ShipmentExporterInterface'

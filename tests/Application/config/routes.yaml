@@ -1,3 +1,0 @@
-threebrs_shipment_export_plugin:
-    resource: "@ThreeBRSSyliusShipmentExportPlugin/Resources/config/routing.yml"
-    prefix: /admin

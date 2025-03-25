@@ -43,7 +43,7 @@ Shipment Export Plugin
 
 ```
 threebrs_shipment_export_plugin:
-    resource: "@ThreeBRSSyliusShipmentExportPlugin/Resources/config/routing.yml"
+    resource: "@ThreeBRSSyliusShipmentExportPlugin/config/admin_routing.yml"
     prefix: /admin
 ```
 
@@ -61,7 +61,7 @@ Predefined shipping providers:
 ThreeBRS\SyliusShipmentExportPlugin\Model\CeskaPostaShipmentExporter:
     public: true
     arguments:
-        $currencyConverter: '@sylius.currency_converter'    
+        $currencyConverter: '@sylius.converter.currency'    
     tags:
         - name: threebrs.shipment_exporter_type
           type: 'ceska_posta'
@@ -73,7 +73,7 @@ ThreeBRS\SyliusShipmentExportPlugin\Model\CeskaPostaShipmentExporter:
 ThreeBRS\SyliusShipmentExportPlugin\Model\GeisShipmentExporter:
     public: true
     arguments:
-        $currencyConverter: '@sylius.currency_converter'
+        $currencyConverter: '@sylius.converter.currency'
     tags:
         - name: threebrs.shipment_exporter_type
           type: 'geis'
