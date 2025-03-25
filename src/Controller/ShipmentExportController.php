@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace ThreeBRS\SyliusShipmentExportPlugin\Controller;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
-use SM\Factory\FactoryInterface;
+use Sylius\Abstraction\StateMachine\StateMachineInterface;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Core\Repository\ShipmentRepositoryInterface;
@@ -28,25 +28,17 @@ class ShipmentExportController
 {
     use GetFlashBagTrait;
 
-    /** @var ShipmentRepositoryInterface&EntityRepository */
-    private $shipmentRepository;
-
-    /**
-     * @param ShipmentRepositoryInterface&EntityRepository $shipmentRepository
-     */
     public function __construct(
         private Environment $templatingEngine,
         private EntityManager $entityManager,
-        private FactoryInterface $stateMachineFatory,
+        private StateMachineInterface $stateMachine,
         private EventDispatcherInterface $eventDispatcher,
         private RouterInterface $router,
         private ShipmentExporterInterface $shipmentExporter,
         private ParameterBagInterface $parameterBag,
-        ShipmentRepositoryInterface $shipmentRepository,
+        private ShipmentRepositoryInterface $shipmentRepository,
         private TranslatorInterface $translator,
     ) {
-        assert($shipmentRepository instanceof EntityRepository);
-        $this->shipmentRepository = $shipmentRepository;
     }
 
     public function showAllUnshipShipments(string $exporterName): Response
@@ -82,9 +74,10 @@ class ShipmentExportController
     {
         /** @var array<string|int> $ids */
         $ids = (array) $request->get('ids', []);
-        $shipments = $this->getShipmentsByIds($ids);
+        $shipments = iterator_to_array($this->getShipmentsByIds($ids));
 
         foreach ($shipments as $shipment) {
+            // @phpstan-ignore instanceof.alwaysTrue
             assert($shipment instanceof ShipmentInterface);
 
             $this->shipShipment($shipment);
@@ -92,6 +85,7 @@ class ShipmentExportController
         $this->entityManager->flush();
 
         foreach ($shipments as $shipment) {
+            // @phpstan-ignore instanceof.alwaysTrue
             assert($shipment instanceof ShipmentInterface);
 
             $this->dispatchEvent('sylius.shipment.post_ship', $shipment);
@@ -115,18 +109,21 @@ class ShipmentExportController
     /**
      * @param array<int|string> $ids
      *
-     * @return array<ShipmentInterface>
+     * @return iterable<ShipmentInterface>
      */
-    public function getShipmentsByIds(array $ids): array
+    public function getShipmentsByIds(array $ids): iterable
     {
-        return $this->shipmentRepository->createQueryBuilder('s')
-            ->select('s')
-            ->join('s.order', 'o')
-            ->andWhere('s.id in (:ids)')
+        assert($this->shipmentRepository instanceof EntityRepository);
+
+        // @phpstan-ignore return.type
+        return $this->shipmentRepository->createQueryBuilder('shipment')
+            ->select('shipment')
+            ->join('shipment.order', 'syliusOrder')
+            ->andWhere('shipment.id in (:ids)')
             ->setParameter('ids', $ids)
-            ->orderBy('o.number', 'ASC')
+            ->orderBy('syliusOrder.number', 'ASC')
             ->getQuery()
-            ->getResult();
+            ->toIterable();
     }
 
     /**
@@ -136,6 +133,9 @@ class ShipmentExportController
      */
     public function getReadyShipments(array $shippingMethodCodes): array
     {
+        assert($this->shipmentRepository instanceof EntityRepository);
+
+        // @phpstan-ignore return.type
         return $this->shipmentRepository->createQueryBuilder('s')
             ->select('s')
             ->join('s.method', 'm')
@@ -167,15 +167,18 @@ class ShipmentExportController
     {
         $this->dispatchEvent('sylius.shipment.pre_ship', $shipment);
 
-        $stateMachine = $this->stateMachineFatory->get($shipment, ShipmentTransitions::GRAPH);
-        $stateMachine->apply(ShipmentTransitions::TRANSITION_SHIP);
+        $this->stateMachine->apply(
+            $shipment,
+            ShipmentTransitions::GRAPH,
+            ShipmentTransitions::TRANSITION_SHIP,
+        );
     }
 
     /**
-     * @param array<ShipmentInterface> $shipments
+     * @param iterable<ShipmentInterface> $shipments
      * @param array<string, mixed> $questionsArray
      */
-    public function doCsvFile(array $shipments, string $shippingMethodCode, array $questionsArray): StreamedResponse
+    public function doCsvFile(iterable $shipments, string $shippingMethodCode, array $questionsArray): StreamedResponse
     {
         $response = new StreamedResponse();
         $response->setCallback(function () use ($shipments, $questionsArray): void {
@@ -195,6 +198,7 @@ class ShipmentExportController
             }
 
             foreach ($shipments as $shipment) {
+                // @phpstan-ignore instanceof.alwaysTrue
                 assert($shipment instanceof ShipmentInterface);
                 fputcsv(
                     $handle,
