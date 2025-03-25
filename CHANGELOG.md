@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.8.0 (2025-03-25)
+
+- Support for Sylius 1.14.*, Symfony ^6.0
+- Add Czech, French and Polish translations
+- Drop support for PHP 8.0
+
 ## v0.7.0 (2025-02-07)
 
 - Support for Sylius 1.12.*|1.13.*, Symfony ^6.0
