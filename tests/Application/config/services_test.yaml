@@ -10,7 +10,7 @@ services:
     ThreeBRS\SyliusShipmentExportPlugin\Model\CeskaPostaShipmentExporter:
         public: true
         arguments:
-            $currencyConverter: '@sylius.currency_converter'
+            $currencyConverter: '@sylius.converter.currency'
         tags:
             -   name: threebrs.shipment_exporter_type
                 type: 'czech_post'
