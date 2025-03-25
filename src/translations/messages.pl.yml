@@ -1,0 +1,19 @@
+threebrs:
+    ui:
+        shippingExport:
+            shipmentExport: Eksport przesyłek
+            exportShipping: Eksport dostawy
+            exportAndShipSuccess: '{{ count }} przesyłka została oznaczona jako wysłana!'
+            confirmSendQuestion: Na pewno wysłać?
+            downloadCsvButton: Pobierz CSV
+            onlyDownloadCSV: Tylko pobierz CSV
+            downloadCSVAndSend: Pobierz CSV i wyślij
+            allShipment: Wszystko
+            orderNumber: Numer zamówienia
+            shippingAddress: Adres dostawy
+            email: E-mail
+            phoneNumber: Numer telefonu
+            orderDate: Data zamówienia
+            actions: Akcje
+            menu:
+                exportShipment: Eksport przesyłek

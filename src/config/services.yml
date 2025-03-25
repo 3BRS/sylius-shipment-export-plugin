@@ -1,0 +1,40 @@
+services:
+    _defaults:
+        autowire: false
+        autoconfigure: false
+        public: false
+
+    ThreeBRS\SyliusShipmentExportPlugin\Menu\ShipmentExportMenuBuilder:
+        tags:
+            - name: kernel.event_listener
+              event: sylius.menu.admin.main
+              method: buildMenu
+        arguments:
+            $parameterBag: '@parameter_bag'
+            $translator: '@translator'
+
+    ThreeBRS\SyliusShipmentExportPlugin\Controller\ShipmentExportController:
+        public: true
+        arguments:
+            $parameterBag: '@parameter_bag'
+            $templatingEngine: '@twig'
+            $entityManager: '@doctrine.orm.default_entity_manager'
+            $stateMachine: '@sylius_abstraction.state_machine'
+            $eventDispatcher: '@event_dispatcher'
+            $router: '@router'
+            $shipmentExporter: '@ThreeBRS\SyliusShipmentExportPlugin\Model\ShipmentExporterInterface'
+            $shipmentRepository: '@sylius.repository.shipment'
+            $translator: '@translator'
+
+    ThreeBRS\SyliusShipmentExportPlugin\Factory\ShipmentExportFactory:
+        arguments:
+            - "@request_stack"
+            - "@threebrs.shipment_exporter"
+
+    ThreeBRS\SyliusShipmentExportPlugin\Model\ShipmentExporterInterface:
+        factory: ['@ThreeBRS\SyliusShipmentExportPlugin\Factory\ShipmentExportFactory', 'getExporter']
+
+    threebrs.shipment_exporter:
+        class: Sylius\Component\Registry\ServiceRegistry
+        arguments:
+            $className: ThreeBRS\SyliusShipmentExportPlugin\Model\ShipmentExporterInterface

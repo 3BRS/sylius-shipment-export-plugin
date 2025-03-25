@@ -1,7 +1,3 @@
 framework:
     router:
         strict_requirements: ~
-
-three_brs_sylius_shipment_export:
-    resource: "@ThreeBRSSyliusShipmentExportPlugin/Resources/config/routing.yml"
-    prefix: /admin

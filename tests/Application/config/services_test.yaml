@@ -1,4 +1,5 @@
 imports:
+    - { resource: "../../Behat/Resources/config/services.xml" }
     - { resource: "../../../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.xml" }
 
 # workaround needed for strange "test.client.history" problem
@@ -9,8 +10,8 @@ services:
     ThreeBRS\SyliusShipmentExportPlugin\Model\CeskaPostaShipmentExporter:
         public: true
         arguments:
-            $currencyConverter: '@sylius.currency_converter'
+            $currencyConverter: '@sylius.converter.currency'
         tags:
             -   name: threebrs.shipment_exporter_type
-                type: 'ceska_posta'
-                label: 'Česká pošta'
+                type: 'czech_post'
+                label: 'Czech post'

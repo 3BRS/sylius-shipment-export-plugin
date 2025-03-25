@@ -43,7 +43,7 @@ Shipment Export Plugin
 
 ```
 threebrs_shipment_export_plugin:
-    resource: "@ThreeBRSSyliusShipmentExportPlugin/Resources/config/routing.yml"
+    resource: "@ThreeBRSSyliusShipmentExportPlugin/config/admin_routing.yml"
     prefix: /admin
 ```
 
@@ -54,7 +54,6 @@ You can use predefined CSV type for shipment providers Geis and Czech Post) or w
 Your custom exporter has to implement `ThreeBRS\SyliusShipmentExportPlugin\Model\ShipmentExporterInterface`
 and must be defined as service. Check out our sample implementations.
 
-
 Predefined shipping providers:
 
 * Czech post
@@ -62,7 +61,7 @@ Predefined shipping providers:
 ThreeBRS\SyliusShipmentExportPlugin\Model\CeskaPostaShipmentExporter:
     public: true
     arguments:
-        $currencyConverter: '@sylius.currency_converter'    
+        $currencyConverter: '@sylius.converter.currency'    
     tags:
         - name: threebrs.shipment_exporter_type
           type: 'ceska_posta'
@@ -74,12 +73,18 @@ ThreeBRS\SyliusShipmentExportPlugin\Model\CeskaPostaShipmentExporter:
 ThreeBRS\SyliusShipmentExportPlugin\Model\GeisShipmentExporter:
     public: true
     arguments:
-        $currencyConverter: '@sylius.currency_converter'
+        $currencyConverter: '@sylius.converter.currency'
     tags:
         - name: threebrs.shipment_exporter_type
           type: 'geis'
           label: 'Geis'
 ```
+
+### Shipping methods
+
+Your shipping methods must have a code that matches the code of the shipping method in the exporter
+ - for Geis see `\ThreeBRS\SyliusShipmentExportPlugin\Model\GeisShipmentExporter::getShippingMethodsCodes`
+ - for Czech Post see `\ThreeBRS\SyliusShipmentExportPlugin\Model\CeskaPostaShipmentExporter::getShippingMethodsCodes`
 
 ## Development
 
