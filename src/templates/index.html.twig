@@ -1,19 +1,17 @@
-{% extends '@SyliusAdmin/shared/layout/base.html.twig' %}
+{% extends '@ThreeBRSSyliusShipmentExportPlugin/layout/resourceless.html.twig' %}
 
 {% block title %}{{ 'threebrs.ui.shippingExport.shipmentExport'|trans }} - {{ exporterLabel }} {{ parent() }}{% endblock %}
 
-{% block body %}
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
 
+{% block pageTitle %}
+	{{ 'threebrs.ui.shippingExport.shipmentExport'|trans }} - {{ exporterLabel }}
+{% endblock %}
+
+{% block content %}
 	<div class="ui stackable two column grid">
-		<div class="column">
-			<h1 class="ui header">
-				<i class="circular arrow up icon"></i>
-				<div class="content">
-					{{ 'threebrs.ui.shippingExport.shipmentExport'|trans }} - {{ exporterLabel }}
-				</div>
-			</h1>
-		</div>
-
 		<div class="middle aligned column">
 			<div class="ui right floated buttons">
 
@@ -56,12 +54,6 @@
 			{{ messages.info('sylius.ui.no_results_to_display') }}
 		{% endif %}
 	</div>
-
-
-{% endblock %}
-
-{% block stylesheets %}
-	{{ parent() }}
 {% endblock %}
 
 {% block javascripts %}

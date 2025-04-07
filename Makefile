@@ -18,6 +18,7 @@ frontend:
 	APP_ENV=test tests/Application/bin/console assets:install
 	(cd tests/Application && yarn install --pure-lockfile)
 	(cd tests/Application && GULP_ENV=prod yarn build)
+	@make var
 
 recreate_db:
 	APP_ENV=test tests/Application/bin/console doctrine:database:drop --force --if-exists
