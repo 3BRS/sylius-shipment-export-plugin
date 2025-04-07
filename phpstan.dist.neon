@@ -4,10 +4,11 @@ includes:
 
 parameters:
     symfony:
-        container_xml_path: tests/Application/var/cache/test/Tests_ThreeBRS_SyliusShipmentExportPlugin_KernelTestDebugContainer.xml
+        containerXmlPath: tests/Application/var/cache/test/Tests_ThreeBRS_SyliusShipmentExportPlugin_KernelTestDebugContainer.xml
 
     excludePaths:
         - 'tests/'
 
     ignoreErrors:
         - identifier: missingType.generics
+        - identifier: function.alreadyNarrowedType

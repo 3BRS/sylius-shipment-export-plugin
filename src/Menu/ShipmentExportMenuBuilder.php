@@ -19,6 +19,7 @@ final class ShipmentExportMenuBuilder
     public function buildMenu(MenuBuilderEvent $event): void
     {
         $exporters = $this->parameterBag->get('threebrs.shipment_exporters');
+        // @phpstan-ignore-next-line
         if (!is_iterable($exporters)) {
             return;
         }
@@ -28,7 +29,7 @@ final class ShipmentExportMenuBuilder
             assert($sales !== null);
 
             $sales->addChild('Shipment_exports_' . $exporterCode, [
-                'route' => 'threebrs_admin_Shipment_export',
+                'route' => 'threebrs_admin_shipment_export',
                 'routeParameters' => ['exporterName' => $exporterCode],
             ])->setName(sprintf(
                 '%s: %s',

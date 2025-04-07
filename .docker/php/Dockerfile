@@ -13,6 +13,21 @@ COPY --from=node /usr/local/include /usr/local/include
 COPY --from=node /usr/local/bin /usr/local/bin
 COPY --from=node /opt /opt
 
+##################
+# Chromium
+##################
+RUN apk update && apk add --no-cache \
+    wget \
+    curl \
+    gnupg
+
+RUN apk add --no-cache chromium
+
+##################
+# CLEANUP
+##################
+RUN apk del
+
 CMD [ "php-fpm" ]
 
 ENTRYPOINT [ "docker-php-entrypoint" ]

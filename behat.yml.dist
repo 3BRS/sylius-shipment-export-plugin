@@ -1,11 +1,24 @@
 imports:
-    - vendor/sylius/sylius/src/Sylius/Behat/Resources/config/suites.yml
+    - tests/Behat/Resources/config/suites.yml
 
 default:
+    formatters:
+        pretty:
+            verbose: true
+            paths: false
+            snippets: false
+
     extensions:
+        DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
+
+        FriendsOfBehat\MinkDebugExtension:
+            directory: tests/Application/var/log
+            clean_start: false
+            screenshot: true
+
         Behat\MinkExtension:
             files_path: "%paths.base%/vendor/sylius/sylius/src/Sylius/Behat/Resources/fixtures/"
-            base_url: "http://localhost:8080/"
+            base_url: "http://localhost/"
             default_session: symfony
             sessions:
                 symfony:
@@ -22,3 +35,7 @@ default:
         FriendsOfBehat\SuiteSettingsExtension:
             paths:
                 - "features"
+
+    gherkin:
+        filters:
+            tags: "~@todo&&~@cli" # CLI is excluded as it registers an error handler that mutes fatal errors
