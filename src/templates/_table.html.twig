@@ -1,30 +1,30 @@
-<table class="ui sortable stackable celled table">
-	<thead>
-	<tr>
-		<th></th>
-		<th class="sylius-table-column">
-			{{ 'threebrs.ui.shippingExport.orderNumber'|trans }}
-		</th>
-		<th class="sylius-table-column">
-			{{ 'threebrs.ui.shippingExport.shippingAddress'|trans }}
-		</th>
-		<th class="sylius-table-column">
-			{{ 'threebrs.ui.shippingExport.email'|trans }}
-		</th>
-		<th class="sylius-table-column">
-			{{ 'threebrs.ui.shippingExport.phoneNumber'|trans }}
-		</th>
-		<th class="sylius-table-column">
-			{{ 'threebrs.ui.shippingExport.orderDate'|trans }}
-		</th>
-		<th class="sylius-table-column-actions">
-			{{ 'threebrs.ui.shippingExport.actions'|trans }}
-		</th>
-	</tr>
-	</thead>
-	<tbody>
-	{% for row in shipments %}
-		{{ include('@ThreeBRSSyliusShipmentExportPlugin/_row.html.twig') }}
-	{% endfor %}
-	</tbody>
+<table class="table table-hover table-bordered table-striped align-middle">
+    <thead class="table-light">
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">
+                {{ 'threebrs.ui.shippingExport.orderNumber'|trans }}
+            </th>
+            <th scope="col">
+                {{ 'threebrs.ui.shippingExport.shippingAddress'|trans }}
+            </th>
+            <th scope="col">
+                {{ 'threebrs.ui.shippingExport.email'|trans }}
+            </th>
+            <th scope="col">
+                {{ 'threebrs.ui.shippingExport.phoneNumber'|trans }}
+            </th>
+            <th scope="col">
+                {{ 'threebrs.ui.shippingExport.orderDate'|trans }}
+            </th>
+            <th scope="col" class="text-center">
+                {{ 'threebrs.ui.shippingExport.actions'|trans }}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in shipments %}
+            {{ include('@ThreeBRSSyliusShipmentExportPlugin/_row.html.twig') }}
+        {% endfor %}
+    </tbody>
 </table>

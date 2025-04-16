@@ -1,60 +1,63 @@
 {% extends '@ThreeBRSSyliusShipmentExportPlugin/layout/resourceless.html.twig' %}
 
-{% block title %}{{ 'threebrs.ui.shippingExport.shipmentExport'|trans }} - {{ exporterLabel }} {{ parent() }}{% endblock %}
-
-{% block stylesheets %}
-	{{ parent() }}
-{% endblock %}
-
-{% block pageTitle %}
-	{{ 'threebrs.ui.shippingExport.shipmentExport'|trans }} - {{ exporterLabel }}
-{% endblock %}
+{% block title %}{{ 'threebrs.ui.shippingExport.shipmentExport'|trans }} - {{ exporterLabel }}{% endblock %}
 
 {% block content %}
-	<div class="ui stackable two column grid">
-		<div class="middle aligned column">
-			<div class="ui right floated buttons">
+<div class="row align-items-center mb-4 mt-2">
+    <div class="col-md-6">
+        <h1 class="h3 d-flex align-items-center">
+            <span class="me-2">
+                <i class="bi bi-arrow-up-circle-fill"></i>
+            </span>
+            {{ 'threebrs.ui.shippingExport.shipmentExport'|trans }} - {{ exporterLabel }}
+        </h1>
+    </div>
 
-				<div class="ui labeled icon top right floating dropdown button primary link" tabindex="0">
-					<i class="icon download"></i>
-					<span class="text">{{ 'threebrs.ui.shippingExport.downloadCsvButton'|trans }} (<span class="counter">all</span>)</span>
-					<div class="menu left transition hidden" tabindex="-1">
-						<a class="item"
-						   id="shipment_exports_only_download"
-						   href="#"
-						   {% if shipments|length == 0 %}disabled="disabled"{% endif %}
-						   data-url="{{ path('threebrs_admin_export_shipments', {'exporterName': exporterName}) }}"
-						   onclick="downloadCsv(this, 0)">
-							<i class="icon download"></i>
-							{{ 'threebrs.ui.shippingExport.onlyDownloadCSV'|trans }} (<span class="counter">{{ 'threebrs.ui.shippingExport.allShipment'|trans }}</span>)
-						</a>
-						<a class="item"
-						   href="#"
-						   {% if shipments|length == 0 %}disabled="disabled"{% endif %}
-						   data-change-state-url="{{ path('threebrs_admin_change_state_shipments', {'exporterName': exporterName}) }}"
-						   data-url="{{ path('threebrs_admin_export_shipments', {'exporterName': exporterName}) }}"
-						   onclick="downloadCsv(this, 1)">
-							<i class="icon download"></i>
-							{{ 'threebrs.ui.shippingExport.downloadCSVAndSend'|trans }} (<span class="counter">{{ 'threebrs.ui.shippingExport.allShipment'|trans }}</span>)
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="col-md-6 text-end">
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-download me-1"></i>
+                {{ 'threebrs.ui.shippingExport.downloadCsvButton'|trans }} (<span class="counter">all</span>)
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="exportDropdown">
+                <li>
+                    <a class="dropdown-item"
+                       href="#"
+                       {% if shipments|length == 0 %}class="disabled"{% endif %}
+                       data-url="{{ path('threebrs_admin_export_shipments', {'exporterName': exporterName}) }}"
+                       onclick="downloadCsv(this, 0)">
+                        <i class="bi bi-download me-2"></i>
+                        {{ 'threebrs.ui.shippingExport.onlyDownloadCSV'|trans }} (<span class="counter">{{ 'threebrs.ui.shippingExport.allShipment'|trans }}</span>)
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item"
+                       href="#"
+                       {% if shipments|length == 0 %}class="disabled"{% endif %}
+                       data-change-state-url="{{ path('threebrs_admin_change_state_shipments', {'exporterName': exporterName}) }}"
+                       data-url="{{ path('threebrs_admin_export_shipments', {'exporterName': exporterName}) }}"
+                       onclick="downloadCsv(this, 1)">
+                        <i class="bi bi-download me-2"></i>
+                        {{ 'threebrs.ui.shippingExport.downloadCSVAndSend'|trans }} (<span class="counter">{{ 'threebrs.ui.shippingExport.allShipment'|trans }}</span>)
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 
-	{% import '@SyliusShop/shared/buttons.html.twig' as buttons %}
-	{% import '@SyliusAdmin/shared/helper/table.html.twig' as table %}
-
-	<div class="ui segment">
-		{% if shipments|length > 0 %}
-			{{ include('@ThreeBRSSyliusShipmentExportPlugin/_table.html.twig') }}
-		{% else %}
-			{% import '@SyliusUi/macro/messages.html.twig' as messages %}
-			{{ messages.info('sylius.ui.no_results_to_display') }}
-		{% endif %}
-	</div>
-{% endblock %}
+<div class="card">
+    <div class="card-body">
+        {% if shipments|length > 0 %}
+            {{ include('@ThreeBRSSyliusShipmentExportPlugin/_table.html.twig') }}
+        {% else %}
+            <div class="alert alert-info mb-0 text-center">
+                <i class="bi bi-info-circle"></i>
+                {{ 'sylius.ui.no_results_to_display' |trans}}
+            </div>
+        {% endif %}
+    </div>
+</div>{% endblock %}
 
 {% block javascripts %}
 	{{ parent() }}

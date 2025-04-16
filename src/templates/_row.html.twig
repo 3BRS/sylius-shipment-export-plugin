@@ -1,55 +1,74 @@
-<tr class="item">
-	<td>
-		<input class="bulk-select-checkbox exportCheckbox" type="checkbox"
-			   name="checkbox-{{ row.id }}" value="{{ row.id }}"/>
-	</td>
-	<td>
-		<a href="{{ path('sylius_admin_order_show', {'id': row.order.id }) }}">{{ row.order.number }}</a>
-	</td>
-	<td>
-		{% block address %}
-			{% if row.order.shippingAddress.company %}
-				{{ row.order.shippingAddress.company }},
-			{% endif %}
-			{{ row.order.shippingAddress.firstName }}
-			{{ row.order.shippingAddress.lastName }},
-			{{ row.order.shippingAddress.street }},
-			{{ row.order.shippingAddress.postcode }}
-			{{ row.order.shippingAddress.city }},
-			{{ row.order.shippingAddress.countryCode }}
-		{% endblock %}
-	</td>
-	<td>
-		{{ row.order.customer.email }}
-	</td>
-	<td>
-		{{ row.order.shippingAddress.phoneNumber }}
-	</td>
-	<td>
-		{{ row.order.checkoutCompletedAt|date }}
-	</td>
-	<td>
-		<div class="ui labeled icon top right floating dropdown button primary link"
-			 tabindex="0">
-			<i class="icon download"></i>
-			<span class="text">{{ 'threebrs.ui.shippingExport.downloadCsvButton'|trans }}</span>
-			<div class="menu left transition hidden" tabindex="-1">
-				<a class="item"
-				   href="#"
-				   onclick="downloadCsv(this, 0, {{ row.id }})"
-				   data-url="{{ path('threebrs_admin_export_shipments', {'exporterName': exporterName}) }}">
-					<i class="icon download"></i>
-					{{ 'threebrs.ui.shippingExport.onlyDownloadCSV'|trans }}
-				</a>
-				<a class="item"
-				   href="#"
-				   onclick="downloadCsv(this, 1, {{ row.id }})"
-				   data-change-state-url="{{ path('threebrs_admin_change_state_shipments', {'exporterName': exporterName}) }}"
-				   data-url="{{ path('threebrs_admin_export_shipments', {'exporterName': exporterName}) }}">
-					<i class="icon download"></i>
-					{{ 'threebrs.ui.shippingExport.downloadCSVAndSend'|trans }}
-				</a>
-			</div>
-		</div>
-	</td>
+<tr class="align-middle">
+    <td class="text-center">
+        <input class="form-check-input bulk-select-checkbox exportCheckbox" 
+               type="checkbox"
+               name="checkbox-{{ row.id }}" 
+               value="{{ row.id }}"
+               data-bs-toggle="tooltip"
+               title="{{ 'threebrs.ui.shippingExport.select_for_export'|trans }}">
+    </td>
+    <td>
+        <a href="{{ path('sylius_admin_order_show', {'id': row.order.id }) }}" 
+           class="text-decoration-none">
+            {{ row.order.number }}
+        </a>
+    </td>
+    <td>
+        <div class="small">
+            {% if row.order.shippingAddress.company %}
+                <strong>{{ row.order.shippingAddress.company }}</strong><br>
+            {% endif %}
+            {{ row.order.shippingAddress.firstName }} {{ row.order.shippingAddress.lastName }}<br>
+            {{ row.order.shippingAddress.street }}<br>
+            {{ row.order.shippingAddress.postcode }} {{ row.order.shippingAddress.city }}<br>
+            {{ row.order.shippingAddress.countryCode|sylius_country_name }}
+        </div>
+    </td>
+    <td>
+        <a href="mailto:{{ row.order.customer.email }}" class="text-decoration-none">
+            {{ row.order.customer.email }}
+        </a>
+    </td>
+    <td>
+        {% if row.order.shippingAddress.phoneNumber %}
+            <a href="tel:{{ row.order.shippingAddress.phoneNumber }}" class="text-decoration-none">
+                {{ row.order.shippingAddress.phoneNumber }}
+            </a>
+        {% endif %}
+    </td>
+    <td>
+        {{ row.order.checkoutCompletedAt|date('Y-m-d H:i') }}
+    </td>
+    <td class="text-center">
+        <div class="btn-group">
+            <button type="button" 
+                    class="btn btn-sm btn-primary dropdown-toggle p-1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                <i class="bi bi-download me-1"></i>
+                {{ 'threebrs.ui.shippingExport.downloadCsvButton'|trans }}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                    <a class="dropdown-item"
+                       href="#"
+                       onclick="downloadCsv(this, 0, {{ row.id }})"
+                       data-url="{{ path('threebrs_admin_export_shipments', {'exporterName': exporterName}) }}">
+                        <i class="bi bi-download me-2"></i>
+                        {{ 'threebrs.ui.shippingExport.onlyDownloadCSV'|trans }}
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item"
+                       href="#"
+                       onclick="downloadCsv(this, 1, {{ row.id }})"
+                       data-change-state-url="{{ path('threebrs_admin_change_state_shipments', {'exporterName': exporterName}) }}"
+                       data-url="{{ path('threebrs_admin_export_shipments', {'exporterName': exporterName}) }}">
+                        <i class="bi bi-send me-2"></i>
+                        {{ 'threebrs.ui.shippingExport.downloadCSVAndSend'|trans }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </td>
 </tr>
