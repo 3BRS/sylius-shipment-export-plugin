@@ -1,0 +1,6 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.resourceless.index.content.custom':
+            shipment_export:
+                template: '@ThreeBRSSyliusShipmentExportPlugin/custom_hooks/shipment_export.html.twig'
+                priority: 0

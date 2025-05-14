@@ -1,0 +1,12 @@
+{% import '@SyliusAdmin/shared/helper/header.html.twig' as header %}
+
+{% set title = hookable_metadata.context.title %}
+{% set icon = hookable_metadata.context.icon|default(null) %}
+{% set subtitle = hookable_metadata.context.subtitle|default(null) %}
+{% set test_attribute = hookable_metadata.context.test_attribute|default(null) %}
+
+<div class="col-12 col-md" {{ test_attribute }}>
+	<div class="d-md-flex gap-2 align-items-center">
+		{{ header.h1(title|trans, icon, subtitle|trans) }}
+	</div>
+</div>

@@ -165,6 +165,9 @@ class ShipmentExportController
 
     public function shipShipment(ShipmentInterface $shipment): void
     {
+        if ($shipment->getState() === ShipmentInterface::STATE_SHIPPED) {
+            return;
+        }
         $this->dispatchEvent('sylius.shipment.pre_ship', $shipment);
 
         $this->stateMachine->apply(
