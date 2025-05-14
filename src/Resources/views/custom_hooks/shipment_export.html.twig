@@ -1,0 +1,118 @@
+{% set exporterLabel = hookable_metadata.context.exporterLabel %}
+{% set exporterName = hookable_metadata.context.exporterName %}
+{% set shipments = hookable_metadata.context.shipments %}
+{% set exporter = hookable_metadata.context.exporter %}
+
+<div class="row">
+	<div class="col d-flex align-items-center justify-content-end">
+		<div class="btn-group">
+			<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+					aria-expanded="false">
+				<i class="bi bi-download"></i>
+				{{ 'threebrs.ui.shippingExport.downloadCsvButton'|trans }} (<span class="counter">all</span>)
+			</button>
+			<ul class="dropdown-menu dropdown-menu-end">
+				<li>
+					<a class="dropdown-item {% if shipments|length == 0 %}disabled{% endif %}"
+					   id="shipment_exports_only_download"
+					   href="#"
+					   data-url="{{ path('threebrs_admin_export_shipments', {'exporterName': exporterName}) }}"
+					   onclick="downloadCsv(this, 0)">
+						<i class="bi bi-download"></i>
+						{{ 'threebrs.ui.shippingExport.onlyDownloadCSV'|trans }} (<span
+							class="counter">{{ 'threebrs.ui.shippingExport.allShipment'|trans }}</span>)
+					</a>
+				</li>
+				<li>
+					<a class="dropdown-item {% if shipments|length == 0 %}disabled{% endif %}"
+					   href="#"
+					   data-change-state-url="{{ path('threebrs_admin_change_state_shipments', {'exporterName': exporterName}) }}"
+					   data-url="{{ path('threebrs_admin_export_shipments', {'exporterName': exporterName}) }}"
+					   onclick="downloadCsv(this, 1)">
+						<i class="bi bi-download"></i>
+						{{ 'threebrs.ui.shippingExport.downloadCSVAndSend'|trans }} (<span
+							class="counter">{{ 'threebrs.ui.shippingExport.allShipment'|trans }}</span>)
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div class="card">
+	{% if shipments|length > 0 %}
+		{{ include('@ThreeBRSSyliusShipmentExportPlugin/_table.html.twig') }}
+	{% else %}
+		<div class="empty">
+			<p class="empty-title">{{ 'sylius.ui.no_results'|trans }}</p>
+		</div>
+	{% endif %}
+</div>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		document.querySelectorAll(".exportCheckbox").forEach(checkbox => {
+			checkbox.addEventListener("change", countCheckboxes);
+		});
+	});
+
+	function countCheckboxes() {
+		const checkedCheckboxes = document.querySelectorAll(".exportCheckbox:checked");
+		const counterElement = document.querySelector(".counter");
+
+		if (checkedCheckboxes.length > 0) {
+			counterElement.innerHTML = checkedCheckboxes.length;
+		} else {
+			counterElement.innerHTML = "{{ 'threebrs.ui.shippingExport.allShipment'|trans }}";
+		}
+	}
+
+	function getCheckedCheckboxesIds() {
+		let ids = [];
+		const checkedCheckboxes = document.querySelectorAll(".exportCheckbox:checked");
+
+		if (checkedCheckboxes.length > 0) {
+			checkedCheckboxes.forEach(checkbox => ids.push(checkbox.value));
+		} else {
+			document.querySelectorAll(".exportCheckbox").forEach(checkbox => ids.push(checkbox.value));
+		}
+
+		return ids;
+	}
+
+	function testAnswer(regex, result) {
+		if (!regex) {
+			return true;
+		}
+		return new RegExp(regex).test(result);
+	}
+
+	function downloadCsv(el, isConfirm, singleRow = null) {
+		if (isConfirm && !confirm("{{ 'threebrs.ui.shippingExport.confirmSendQuestion'|trans }}")) {
+			return false;
+		}
+
+		let ids = singleRow !== null ? [singleRow] : getCheckedCheckboxesIds();
+		let urlParams = ids.map(id => `ids[]=${id}`);
+
+		{% for question in exporter.questionsArray %}
+		let resultOk = false;
+		do {
+			let result = prompt("{{ question.label }}", "{{ question.defaultValue is not empty ? question.defaultValue : '' }}");
+			if (typeof result === "undefined" || result === null) {
+				return;
+			} else if (testAnswer({% if question.regex is not null %}{{ question.regex }}{% else %}''{% endif %}, result)) {
+				urlParams.push(`questions[{{ question.code }}]=${result}`);
+				resultOk = true;
+			}
+		} while (!resultOk);
+		{% endfor %}
+
+		let urlParamsString = urlParams.filter(Boolean).join("&");
+		urlParamsString = urlParamsString.length > 0 ? `?${urlParamsString}` : "";
+		window.open(el.dataset.url + urlParamsString, "_blank");
+		if (isConfirm) {
+			window.location.href = el.dataset.changeStateUrl + urlParamsString;
+		}
+	}
+</script>

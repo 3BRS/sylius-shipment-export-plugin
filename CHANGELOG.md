@@ -1,12 +1,11 @@
 # CHANGELOG
 
-## v1.0.0 (2025-02-07)
-
-## v1.0.0 (2025-02-07)
+## v1.0.0 (2025-05-23)
 
 - Support for Sylius 2.0
 - Drop support for Sylius 1.*
 - ⚠️ BC route `threebrs_admin_Shipment_export` renamed to `threebrs_admin_shipment_export` (case change)
+- ⚠️ BC config moved from `Resources/config` to `config`, so for example `@ThreeBRSSyliusShipmentExportPlugin/Resources/config/routing.yml` is now `@ThreeBRSSyliusShipmentExportPlugin/config/routing.yml`
 
 ## v0.8.0 (2025-03-25)
 

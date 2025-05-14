@@ -9,15 +9,15 @@
         <testsuite name="AcmeSyliusExamplePlugin Test Suite">
             <directory>tests</directory>
         </testsuite>
-        <env name="APP_ENV" value="test"/>
-        <env name="SHELL_VERBOSITY" value="-1" />
     </testsuites>
 
     <php>
         <server name="IS_DOCTRINE_ORM_SUPPORTED" value="true" />
 
+		<env name="SHELL_VERBOSITY" value="-1" />
+
         <!-- ###+ symfony/framework-bundle ### -->
-        <env name="APP_ENV" value="dev"/>
+		<env name="APP_ENV" value="test"/>
         <env name="APP_SECRET" value="e1095c7366122a383edf4e168730a6d5"/>
         <!-- ###- symfony/framework-bundle ### -->
 

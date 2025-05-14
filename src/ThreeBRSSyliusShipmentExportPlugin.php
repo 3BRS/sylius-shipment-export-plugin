@@ -11,19 +11,19 @@ use ThreeBRS\SyliusShipmentExportPlugin\DependencyInjection\Compiler\RegisterShi
 
 class ThreeBRSSyliusShipmentExportPlugin extends Bundle
 {
-	use SyliusPluginTrait;
+    use SyliusPluginTrait;
 
-	/**
-	 * Affects loading of files from the bundle's config directory and resolving real path from logic path, @see \Symfony\Component\HttpKernel\Kernel::locateResource
-	 * and @see \Symfony\Bundle\TwigBundle\TemplateIterator::getIterator
-	 */
-	public function getPath(): string
-	{
-		return __DIR__;
-	}
+    /**
+     * Affects loading of files from the bundle's config directory and resolving real path from logic path, @see \Symfony\Component\HttpKernel\Kernel::locateResource
+     * and @see \Symfony\Bundle\TwigBundle\TemplateIterator::getIterator
+     */
+    public function getPath(): string
+    {
+        return parent::getPath();
+    }
 
-	public function build(ContainerBuilder $container): void
-	{
-		$container->addCompilerPass(new RegisterShipmentExporersPass());
-	}
+    public function build(ContainerBuilder $container): void
+    {
+        $container->addCompilerPass(new RegisterShipmentExporersPass());
+    }
 }

@@ -1,5 +1,6 @@
 threebrs:
     ui:
+        _empty: ''
         shippingExport:
             shipmentExport: Shipment export
             exportShipping: Export Shipping

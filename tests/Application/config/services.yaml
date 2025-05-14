@@ -3,3 +3,13 @@
 parameters:
     locale: en_US
     .container.dumper.inline_factories: true # to avoid fatal 'Filename too long' on Linux EXT4 in combination with encrypted filesystem
+
+services:
+    ThreeBRS\SyliusShipmentExportPlugin\Model\CeskaPostaShipmentExporter:
+        public: true
+        arguments:
+            $currencyConverter: '@sylius.converter.currency'
+        tags:
+            -   name: threebrs.shipment_exporter_type
+                type: 'czech_post'
+                label: 'Czech post'
