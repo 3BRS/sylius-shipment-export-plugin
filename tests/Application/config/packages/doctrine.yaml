@@ -32,12 +32,6 @@ doctrine:
                 prefix: 'Tests\ThreeBRS\SyliusShipmentExportPlugin\Entity'
                 alias: App
 
-when@test:
-    doctrine:
-        dbal:
-            # "TEST_TOKEN" is typically set by ParaTest
-            dbname_suffix: '%env(default::TEST_TOKEN)%'
-
 when@prod:
     doctrine:
         orm:

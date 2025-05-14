@@ -1,25 +1,15 @@
 version: 2.1
 
 workflows:
-    sylius1.12-php8.1+:
+    sylius2.0+-php8.2+:
         jobs:
             -   build:
                     name: php-<<matrix.php_version>>-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
                     matrix:
                         parameters:
-                            sylius_version: [ "1.12" ]
-                            php_version: [ "8.1", "8.2", "8.3" ]
-                            symfony_version: [ "6.0", "6.1", "6.2", "6.3", "6.4" ]
-
-    sylius1.13-1.14-php8.1+:
-        jobs:
-            -   build:
-                    name: php-<<matrix.php_version>>-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
-                    matrix:
-                        parameters:
-                            sylius_version: [ "1.13", "1.14" ]
-                            php_version: [ "8.1", "8.2", "8.3" ]
-                            symfony_version: [ "6.4" ]
+                            sylius_version: [ "2.0" ]
+                            php_version: [ "8.2", "8.3" ]
+                            symfony_version: [ "6.4", "7.1", "7.2" ]
 
 jobs:
     build:
@@ -64,6 +54,7 @@ jobs:
             # has to delete vendor for next test with different libraries version to avoid Composer error 'Failed to extract...' if vendor dir cache does not exist
             -   run: rm -fr vendor composer.lock
             -   run: composer update --no-interaction --prefer-lowest --no-plugins
+            -   run: (cd tests/Application && bin/console assets:install --no-interaction)
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
             -   run: (cd tests/Application && bin/console doctrine:database:create --if-not-exists --env=test -vvv)
@@ -77,6 +68,7 @@ jobs:
 
             # COMPOSER PREFER DIST #
             -   run: composer update --no-interaction --prefer-dist --no-plugins
+            -   run: (cd tests/Application && bin/console assets:install --no-interaction)
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
             -   run: (cd tests/Application && bin/console doctrine:database:create --if-not-exists --env=test -vvv)

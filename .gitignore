@@ -1,6 +1,4 @@
 /.idea
-/vendor/
-/node_modules/
 /composer.lock
 
 /etc/build/*
@@ -11,7 +9,6 @@
 docker-compose.override.yaml
 docker-compose.override.dist.yaml
 docker-compose.yaml
-/bin-docker/
 /deploy/
 /docker/
 /etc/
@@ -21,6 +18,7 @@ docker-compose.yaml
 /.env.local
 /.env.local.php
 /.env.*.local
+/.envrc
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
@@ -30,6 +28,7 @@ docker-compose.yaml
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
+/phpunit_log
 ###< phpunit/phpunit ###
 
 ###> lexik/jwt-authentication-bundle ###

@@ -2,8 +2,6 @@
 
 ## v1.0.0 (2025-02-07)
 
-## v1.0.0 (2025-02-07)
-
 - Support for Sylius 2.0
 - Drop support for Sylius 1.*
 - ⚠️ BC route `threebrs_admin_Shipment_export` renamed to `threebrs_admin_shipment_export` (case change)
