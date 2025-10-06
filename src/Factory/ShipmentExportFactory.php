@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ThreeBRS\SyliusShipmentExportPlugin\Factory;
 
-use Liip\ImagineBundle\Exception\Config\Filter\NotFoundException;
 use Sylius\Component\Registry\ServiceRegistryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use ThreeBRS\SyliusShipmentExportPlugin\Factory\Exception\ShipmentExporterNotFoundException;
 use ThreeBRS\SyliusShipmentExportPlugin\Model\ShipmentExporterInterface;
 
 class ShipmentExportFactory
@@ -16,7 +16,7 @@ class ShipmentExportFactory
     }
 
     /**
-     * @throws NotFoundException
+     * @throws ShipmentExporterNotFoundException
      */
     public function getExporter(): ?ShipmentExporterInterface
     {
@@ -33,7 +33,7 @@ class ShipmentExportFactory
         assert(is_string($exporterName));
 
         if ($this->serviceRegistry->has($exporterName) === false) {
-            throw new  NotFoundException(sprintf(
+            throw new  ShipmentExporterNotFoundException(sprintf(
                 'Exporter with %s exporterName could not be found',
                 $exporterName,
             ));
