@@ -9,14 +9,18 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use ThreeBRS\SyliusShipmentExportPlugin\Factory\Exception\ShipmentExporterNotFoundException;
 use ThreeBRS\SyliusShipmentExportPlugin\Model\ShipmentExporterInterface;
 
-class ShipmentExportFactory
+readonly class ShipmentExportFactory
 {
-    public function __construct(private RequestStack $requestStack, private ServiceRegistryInterface $serviceRegistry)
-    {
+    public function __construct(
+        private RequestStack $requestStack,
+        private ServiceRegistryInterface $serviceRegistry,
+    ) {
     }
 
     /**
      * @throws ShipmentExporterNotFoundException
+     *
+     * @noinspection PhpUnused used as factory in services
      */
     public function getExporter(): ?ShipmentExporterInterface
     {
