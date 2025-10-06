@@ -42,9 +42,9 @@ Shipment Export Plugin
 3. Import routes in your `config/routes.yaml`
 
 ```
-threebrs_shipment_export_plugin:
+threebrs_sylius_shipment_export_plugin:
     resource: "@ThreeBRSSyliusShipmentExportPlugin/Resources/config/admin_routing.{yml,yaml}"
-    prefix: /admin
+    prefix: '/%sylius_admin.path_name%'
 ```
 
 4. Import plugin configuration in your `config/packages/_sylius.yaml`
