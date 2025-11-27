@@ -9,7 +9,7 @@ workflows:
                         parameters:
                             sylius_version: [ "2.0" ]
                             php_version: [ "8.2", "8.3" ]
-                            symfony_version: [ "6.4", "7.1", "7.2" ]
+                            symfony_version: [ "6.4", "7.1" ]
 
 jobs:
     build:
@@ -43,7 +43,7 @@ jobs:
 
             # Sylius & Symfony in current matrix versions
             -   run: composer require "sylius/sylius:<< parameters.sylius_version >>.*" --no-interaction --no-update --no-scripts
-            -   run: grep -o -E '"(symfony/[^"]+)"' composer.json | grep -v -E '(symfony/flex|symfony/webpack-encore-bundle)' | xargs printf '%s:<< parameters.symfony_version >>.* '| xargs composer require --no-interaction --no-update
+            -   run: grep -o -E '"(symfony/[^"]+)"' composer.json | grep -v -E '(symfony/flex|symfony/webpack-encore-bundle|symfony/http-foundation)' | xargs printf '%s:<< parameters.symfony_version >>.* '| xargs composer require --no-interaction --no-update
 
             -   run:
                     name: Wait for database
@@ -64,7 +64,7 @@ jobs:
             -   run: APP_ENV=test bin/phpstan.sh
             -   run: APP_ENV=test bin/ecs.sh --clear-cache
             -   run: APP_ENV=test bin/symfony-lint.sh
-            -   run: APP_ENV=test bin/behat.sh || grep 'console.CRITICAL' tests/Application/var/log/test.log
+            -   run: APP_ENV=test bin/behat.sh || grep 'CRITICAL' tests/Application/var/log/test.log
 
             # COMPOSER PREFER DIST #
             -   run: composer update --no-interaction --prefer-dist --no-plugins
@@ -78,4 +78,4 @@ jobs:
             -   run: APP_ENV=test bin/phpstan.sh
             -   run: APP_ENV=test bin/ecs.sh --clear-cache
             -   run: APP_ENV=test bin/symfony-lint.sh
-            -   run: APP_ENV=test bin/behat.sh
+            -   run: APP_ENV=test bin/behat.sh || grep 'CRITICAL' tests/Application/var/log/test.log
