@@ -18,9 +18,9 @@ final class ShipmentExportMenuBuilder
 
     public function buildMenu(MenuBuilderEvent $event): void
     {
+        /** @var array<string, string> $exporters */
         $exporters = $this->parameterBag->get('threebrs.shipment_exporters');
-        // @phpstan-ignore-next-line
-        if (!is_iterable($exporters)) {
+        if (!is_array($exporters)) {
             return;
         }
 

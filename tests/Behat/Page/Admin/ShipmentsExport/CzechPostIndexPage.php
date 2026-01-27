@@ -8,16 +8,16 @@ use Sylius\Behat\Page\Admin\Crud\IndexPage as BaseIndexPage;
 
 class CzechPostIndexPage extends BaseIndexPage implements CzechPostIndexPageInterface
 {
-	public function downloadCsv(): void
-	{
-		$downloadCsv = $this->getElement('download_csv');
-		$downloadCsv->click();
-	}
+    public function downloadCsv(): void
+    {
+        $downloadCsv = $this->getElement('download_csv');
+        $downloadCsv->click();
+    }
 
-	protected function getDefinedElements(): array
-	{
-		return array_merge(parent::getDefinedElements(), [
-			'download_csv' => '#shipment_exports_only_download',
-		]);
-	}
+    protected function getDefinedElements(): array
+    {
+        return array_merge(parent::getDefinedElements(), [
+            'download_csv' => '#shipment_exports_only_download',
+        ]);
+    }
 }

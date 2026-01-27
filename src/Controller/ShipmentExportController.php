@@ -28,6 +28,9 @@ class ShipmentExportController
 {
     use GetFlashBagTrait;
 
+    /**
+     * @param ShipmentRepositoryInterface<ShipmentInterface> $shipmentRepository
+     */
     public function __construct(
         private Environment $templatingEngine,
         private EntityManager $entityManager,
@@ -101,9 +104,10 @@ class ShipmentExportController
 
     public function getExporterLabel(string $exporterCode): string
     {
+        /** @var array<string, string> $exporters */
         $exporters = $this->parameterBag->get('threebrs.shipment_exporters');
 
-        return array_key_exists($exporterCode, $exporters) ? $exporters[$exporterCode] : '';
+        return $exporters[$exporterCode] ?? '';
     }
 
     /**
@@ -186,7 +190,7 @@ class ShipmentExportController
         $response = new StreamedResponse();
         $response->setCallback(function () use ($shipments, $questionsArray): void {
             $handle = fopen('php://output', 'w+b');
-            if (!$handle) {
+            if ($handle === false) {
                 throw new \RuntimeException('Cannot open file: php://output');
             }
 

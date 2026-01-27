@@ -8,22 +8,24 @@
 	</td>
 	<td>
 		{% block address %}
-			{% if row.order.shippingAddress.company %}
-				{{ row.order.shippingAddress.company }},
+			{% if row.order.shippingAddress %}
+				{% if row.order.shippingAddress.company %}
+					{{ row.order.shippingAddress.company }},
+				{% endif %}
+				{{ row.order.shippingAddress.firstName }}
+				{{ row.order.shippingAddress.lastName }},
+				{{ row.order.shippingAddress.street }},
+				{{ row.order.shippingAddress.postcode }}
+				{{ row.order.shippingAddress.city }},
+				{{ row.order.shippingAddress.countryCode }}
 			{% endif %}
-			{{ row.order.shippingAddress.firstName }}
-			{{ row.order.shippingAddress.lastName }},
-			{{ row.order.shippingAddress.street }},
-			{{ row.order.shippingAddress.postcode }}
-			{{ row.order.shippingAddress.city }},
-			{{ row.order.shippingAddress.countryCode }}
 		{% endblock %}
 	</td>
 	<td>
-		{{ row.order.customer.email }}
+		{{ row.order.customer.email|default('') }}
 	</td>
 	<td>
-		{{ row.order.shippingAddress.phoneNumber }}
+		{{ row.order.shippingAddress.phoneNumber|default('') }}
 	</td>
 	<td>
 		{{ row.order.checkoutCompletedAt|date }}
