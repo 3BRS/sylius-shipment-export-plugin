@@ -101,12 +101,12 @@ class CeskaPostaShipmentExporter implements ShipmentExporterInterface
             ? 'DR'
             : 'NP';
 
-        $weight = 0;
+        $weight = 0.0;
         foreach ($order->getItems() as $item) {
             /** @var OrderItemInterface $item */
             $variant = $item->getVariant();
             if ($variant !== null) {
-                $weight += $variant->getWeight();
+                $weight += $variant->getWeight() ?? 0.0;
             }
         }
 

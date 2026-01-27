@@ -24,6 +24,7 @@ final class RegisterShipmentExporersPass implements CompilerPassInterface
         $exporters = [];
 
         foreach ($exporterRegistry as $id => $attributes) {
+            /** @var array<int, array{type?: string, label?: string}> $attributes */
             if (!isset($attributes[0]['type']) || !isset($attributes[0]['label'])) {
                 throw new \InvalidArgumentException('Tagged shipping exporter configuration type needs to have `type` and `label` attributes.');
             }

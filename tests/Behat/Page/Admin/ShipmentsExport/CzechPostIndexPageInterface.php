@@ -8,5 +8,5 @@ use Sylius\Behat\Page\Admin\Crud\IndexPageInterface as BaseIndexPageInterface;
 
 interface CzechPostIndexPageInterface extends BaseIndexPageInterface
 {
-	public function downloadCsv(): void;
+    public function downloadCsv(): void;
 }
