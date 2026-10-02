@@ -29,7 +29,7 @@ readonly class ShipmentExportFactory
             return null;
         }
 
-        $exporterName = $request->get('exporterName');
+        $exporterName = $request->attributes->get('exporterName');
         if ($exporterName === null) {
             return null;
         }

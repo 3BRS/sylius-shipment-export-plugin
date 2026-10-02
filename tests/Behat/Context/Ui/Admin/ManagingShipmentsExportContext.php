@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\ThreeBRS\SyliusShipmentExportPlugin\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
+use Behat\Step\Then;
+use Behat\Step\When;
 use Tests\ThreeBRS\SyliusShipmentExportPlugin\Behat\Page\Admin\ShipmentsExport\CzechPostIndexPageInterface;
 use Webmozart\Assert\Assert;
 
@@ -15,9 +17,7 @@ final class ManagingShipmentsExportContext implements Context
     ) {
     }
 
-    /**
-     * @When I browse shipments export for shipping Czech post
-     */
+    #[When('I browse shipments export for shipping Czech post')]
     public function iBrowseShipmentsExport(): void
     {
         /**
@@ -27,18 +27,14 @@ final class ManagingShipmentsExportContext implements Context
         $this->indexPage->open(['exporterName' => 'czech_post']);
     }
 
-    /**
-     * @Then I should see( only) :count shipment(s) in the list
-     * @Then I should see a single shipment in the list
-     */
+    #[Then('I should see( only) :count shipment(s) in the list')]
+    #[Then('I should see a single shipment in the list')]
     public function iShouldSeeCountShipmentsInList(int $count = 1): void
     {
         Assert::same($this->indexPage->countItems(), $count);
     }
 
-    /**
-     * @Then I can select download CSV from menu to export shipments for Czech post
-     */
+    #[Then('I can select download CSV from menu to export shipments for Czech post')]
     public function iCanSelectDownloadCsvFromMenuToExportShipmentsForCzechPost(): void
     {
         $this->indexPage->downloadCsv();
