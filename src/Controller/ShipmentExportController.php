@@ -65,10 +65,10 @@ class ShipmentExportController
     public function exportShipmentsAction(Request $request, string $exporterName): StreamedResponse
     {
         /** @var array<string|int> $ids */
-        $ids = $request->query->all('ids');
+        $ids = $this->getArrayParameter($request, 'ids');
         $shipments = $this->getShipmentsByIds($ids);
         /** @var array<string, mixed> $questionsArray */
-        $questionsArray = $request->query->all('questions');
+        $questionsArray = $this->getArrayParameter($request, 'questions');
 
         return $this->doCsvFile($shipments, $exporterName, $questionsArray);
     }
@@ -76,7 +76,7 @@ class ShipmentExportController
     public function markAsSend(Request $request, string $exporterName): RedirectResponse
     {
         /** @var array<string|int> $ids */
-        $ids = $request->query->all('ids');
+        $ids = $this->getArrayParameter($request, 'ids');
         $shipments = iterator_to_array($this->getShipmentsByIds($ids));
 
         foreach ($shipments as $shipment) {
@@ -221,5 +221,15 @@ class ShipmentExportController
         $response->headers->set('Content-Disposition', 'attachment; filename="' . $shippingMethodCode . '.csv"');
 
         return $response;
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    private function getArrayParameter(Request $request, string $name): array
+    {
+        $parameters = $request->query->has($name) ? $request->query->all() : $request->request->all();
+
+        return (array) ($parameters[$name] ?? []);
     }
 }
