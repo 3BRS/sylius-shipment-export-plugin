@@ -4,7 +4,6 @@
 
 - Add support for Sylius 2.3
 - Add support for Symfony 8
-- ⚠️ BC export and mark-as-shipped actions read `ids` and `questions` from the query string only
 
 ## v2.0.0 (2026-01-27)
 
